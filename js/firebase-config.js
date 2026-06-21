@@ -5,13 +5,14 @@
 
 // Project settings → General → "Your apps" → SDK setup and configuration.
 export const firebaseConfig = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://PASTE_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_PROJECT_ID.appspot.com",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID"
+  apiKey: "AIzaSyBoAE_ftrQiqdclYGDYdK0euvzcTzQrZn8",
+  authDomain: "abcdvchoretracker.firebaseapp.com",
+  databaseURL: "https://abcdvchoretracker-default-rtdb.firebaseio.com",
+  projectId: "abcdvchoretracker",
+  storageBucket: "abcdvchoretracker.firebasestorage.app",
+  messagingSenderId: "897706879678",
+  appId: "1:897706879678:web:28e80d9f124f662e8b0cef",
+  measurementId: "G-4DL82KL3S4"
 };
 
 // These build the real Firebase Auth password behind the scenes from
