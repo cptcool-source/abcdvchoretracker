@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Chore Squad — page-specific styles
+   Loaded in addition to css/styles.css on chores.html only.
+   ========================================================================== */
+
+:root{
+  --accent-fresh:#22B07D;
+  --accent-fresh-bg:#DEFBEF;
+  --accent-soon:#FF9F1C;
+  --accent-soon-bg:#FFEEDA;
+  --accent-overdue:#FF4D6D;
+  --accent-overdue-bg:#FFE2E8;
+  --accent-never:#9B5DE5;
+  --accent-never-bg:#F0E5FF;
+  --ring-track:#F4E7F6;
+}
+
+#root{max-width:960px;margin:0 auto;padding:26px 16px 70px;}
+
+.app-header{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+.title-wrap{display:flex;align-items:center;gap:10px;}
+.title-emoji{font-size:28px;display:inline-block;animation:float 3s ease-in-out infinite;}
+.app-title{
+  font-family:'Fredoka',sans-serif;font-weight:700;font-size:28px;margin:0;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.01em;
+}
+.stats{
+  font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text-secondary);margin-top:4px;
+  background:#fff;display:inline-block;padding:4px 11px;border-radius:999px;border:1px solid var(--surface-border);
+}
+.stats strong{color:var(--primary-dark);font-weight:700;}
+
+.panel{padding:20px;margin:18px 0;}
+.form-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:12px;align-items:end;}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr;}}
+.field label{display:block;font-size:11.5px;font-weight:700;color:var(--secondary);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;}
+.field input[type=text], .field input[type=number], .field select{
+  width:100%;font-family:'Poppins',sans-serif;font-size:14.5px;padding:11px 13px;
+  border:2px solid var(--surface-border);border-radius:14px;background:#FFFBFD;color:var(--text-primary);
+}
+.field input:focus, .field select:focus{outline:none;border-color:var(--primary);}
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--text-secondary);margin-top:12px;}
+.checkbox-row input{width:17px;height:17px;accent-color:var(--primary);}
+.form-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+
+.filter-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0 16px;}
+.filter-bar select{
+  font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;padding:9px 14px;border-radius:999px;
+  border:2px solid var(--surface-border);background:#fff;color:var(--text-primary);
+}
+.toggle-chip{
+  font-size:13px;font-weight:700;padding:9px 16px;border-radius:999px;border:2px solid var(--surface-border);
+  background:#fff;cursor:pointer;color:var(--text-secondary);transition:.15s;
+}
+.toggle-chip.active{background:var(--accent-overdue);border-color:var(--accent-overdue);color:#fff;}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+
+.card{padding:16px;display:flex;gap:13px;align-items:flex-start;transition:transform .15s ease;}
+.card:hover{transform:translateY(-2px);}
+
+.ring-btn{background:none;border:none;cursor:pointer;padding:4px;flex-shrink:0;border-radius:50%;-webkit-tap-highlight-color:transparent;}
+.ring-btn:active{transform:scale(0.92);}
+.ring-btn:focus-visible{outline:3px solid var(--primary);outline-offset:2px;}
+.ring-btn svg{display:block;}
+.ring-track{fill:none;stroke:var(--ring-track);stroke-width:6;}
+.ring-progress{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .5s ease, stroke .3s ease;}
+
+.card-body{flex:1;min-width:0;}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.chore-name{font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;margin:0 0 5px;word-break:break-word;color:var(--text-primary);}
+.icon-btn{background:none;border:none;cursor:pointer;padding:5px;border-radius:8px;color:var(--text-faint);-webkit-tap-highlight-color:transparent;}
+.icon-btn:hover{background:var(--bg1);color:var(--primary-dark);}
+.card-icons{display:flex;gap:1px;flex-shrink:0;}
+
+.meta-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin-bottom:6px;}
+.avatar{
+  width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;font-family:'Fredoka',sans-serif;flex-shrink:0;
+  box-shadow:0 2px 0 rgba(0,0,0,0.08);
+}
+.dot{color:var(--text-faint);}
+.freq-text{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500;}
+.last-done{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--text-faint);margin-bottom:6px;}
+.status-pill{display:inline-block;font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px;font-family:'Poppins',sans-serif;}
+
+.edit-form{display:flex;flex-direction:column;gap:9px;margin-top:2px;}
+.edit-row{display:flex;gap:8px;}
+.edit-row > *{flex:1;}
+.confirm-delete{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-secondary);margin-top:8px;flex-wrap:wrap;}
+
+.empty-state{text-align:center;padding:54px 20px;color:var(--text-secondary);}
+.empty-state .big-emoji{font-size:42px;display:block;margin-bottom:10px;}
+.empty-state h3{font-family:'Fredoka',sans-serif;font-weight:600;font-size:19px;color:var(--text-primary);margin-bottom:6px;}
+
+.footer-bar{display:flex;justify-content:center;margin-top:34px;}
+.footer-bar button{background:none;border:none;color:var(--text-faint);font-size:12.5px;cursor:pointer;font-weight:600;}
+.footer-bar button:hover{color:var(--accent-overdue);}
+
+.storage-banner{
+  background:#fff;color:var(--primary-dark);border:2px dashed var(--primary);border-radius:14px;
+  padding:10px 15px;font-size:12.5px;margin-bottom:14px;font-weight:500;
+}
+.loading-state{text-align:center;padding:60px;color:var(--text-secondary);font-size:14px;font-family:'Fredoka',sans-serif;}
+
+.confetti-piece{
+  position:fixed;top:0;left:0;font-size:18px;pointer-events:none;z-index:9999;
+  animation:confetti-burst var(--dur) ease-out forwards;
+}
+@keyframes confetti-burst{
+  0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1;}
+  100%{transform:translate(var(--tx),var(--ty)) rotate(var(--rot)) scale(0.5);opacity:0;}
+}
+
+/* ---------- passcode gate ---------- */
+.gate-overlay{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+  padding:20px;
+}
+.gate-card{
+  padding:36px 30px;text-align:center;max-width:340px;width:100%;
+}
+.gate-emoji{font-size:36px;display:block;margin-bottom:8px;}
+.gate-title{font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;margin:0 0 6px;}
+.gate-sub{font-size:13.5px;color:var(--text-secondary);margin:0 0 22px;line-height:1.5;}
+.gate-inputs{display:flex;gap:10px;justify-content:center;margin-bottom:16px;}
+.gate-digit{
+  width:52px;height:60px;text-align:center;
+  font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:500;
+  border:2px solid var(--surface-border);border-radius:14px;background:#FFFBFD;color:var(--text-primary);
+}
+.gate-digit:focus{outline:none;border-color:var(--primary);}
+.gate-error{color:var(--accent-overdue);font-size:13px;font-weight:600;margin:0 0 14px;}
+.gate-inputs.shake{animation:gate-shake .4s ease;}
+@keyframes gate-shake{
+  10%,90%{transform:translateX(-2px);}
+  20%,80%{transform:translateX(4px);}
+  30%,50%,70%{transform:translateX(-8px);}
+  40%,60%{transform:translateX(8px);}
+}
+
+.footer-link-btn{
+  background:none;border:none;color:inherit;font-size:inherit;font-weight:600;cursor:pointer;padding:0;text-decoration:underline;
+}
+.footer-link-btn:hover{color:var(--primary-dark);}
+
+@media(max-width:480px){
+  .app-title{font-size:23px;}
+  .title-emoji{font-size:23px;}
+  .app-header{flex-direction:column;align-items:flex-start;}
+  .ring-btn svg{width:48px;height:48px;}
+  .card{padding:13px;gap:10px;}
+  .gate-card{padding:28px 18px;}
+  .gate-digit{width:44px;height:54px;font-size:22px;}
+}

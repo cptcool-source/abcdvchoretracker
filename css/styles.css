@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Family Hub — shared stylesheet
+   Every page links to this file. Page-specific styles (like the chore
+   tracker's cards) live in their own CSS file alongside this one.
+   ========================================================================== */
+
+:root{
+  /* palette */
+  --bg1:#FFE1F0;
+  --bg2:#EAD9FF;
+  --bg3:#DAF3FF;
+  --surface:#FFFFFF;
+  --surface-border:#F3D9EC;
+  --text-primary:#3A2547;
+  --text-secondary:#8E7AA3;
+  --text-faint:#C2AFDA;
+  --primary:#FF4FA3;
+  --primary-dark:#E0388C;
+  --secondary:#9B5DE5;
+
+  /* shared shape language */
+  --radius:20px;
+  --shadow-pop: 0 5px 0 rgba(255,79,163,0.16), 0 10px 22px rgba(155,93,229,0.14);
+}
+
+*{box-sizing:border-box;}
+html,body{overflow-x:hidden;}
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 50%, var(--bg3) 100%);
+  background-attachment:fixed;
+  color:var(--text-primary);
+  font-family:'Poppins',sans-serif;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;}
+
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px;}
+
+/* ---------- nav ---------- */
+.site-nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(8px);
+  border-bottom:2px solid var(--surface-border);
+}
+.nav-inner{
+  max-width:1000px;margin:0 auto;padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.nav-logo{
+  font-family:'Fredoka',sans-serif;font-weight:700;font-size:19px;text-decoration:none;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap;}
+.nav-links a{
+  text-decoration:none;font-weight:600;font-size:14px;color:var(--text-secondary);
+  padding:8px 14px;border-radius:999px;transition:.15s;
+}
+.nav-links a:hover{background:var(--bg1);color:var(--primary-dark);}
+.nav-links a.active{background:var(--primary);color:#fff;}
+
+/* ---------- buttons (shared across every page) ---------- */
+.btn{
+  font-family:'Poppins',sans-serif;
+  font-weight:600;
+  font-size:14.5px;
+  border:none;
+  border-radius:999px;
+  padding:12px 22px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.btn:active{transform:translateY(3px) scale(0.98);box-shadow:none !important;}
+.btn-primary{
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  color:#fff;
+  box-shadow:0 4px 0 var(--primary-dark);
+}
+.btn-primary:hover{filter:brightness(1.05);}
+.btn-ghost{background:#fff;color:var(--text-secondary);border:2px solid var(--surface-border);}
+.btn-ghost:hover{border-color:var(--secondary);color:var(--secondary);}
+.btn-small{padding:8px 16px;font-size:13px;}
+.btn-danger{background:#FF4D6D;color:#fff;box-shadow:0 4px 0 #C73654;}
+
+/* generic white "sticker" surface, reused by cards/panels on any page */
+.surface{
+  background:var(--surface);
+  border:2px solid var(--surface-border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-pop);
+}
+
+/* ---------- hero (splash page) ---------- */
+.hero{
+  text-align:center;
+  padding:64px 20px 40px;
+}
+.hero-decor{font-size:30px;margin-bottom:10px;animation:float 3s ease-in-out infinite;display:inline-block;}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-6deg);}50%{transform:translateY(-6px) rotate(6deg);}}
+.hero-title{
+  font-family:'Fredoka',sans-serif;font-weight:700;font-size:44px;margin:0 0 12px;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:-0.01em;
+}
+.hero-tagline{
+  font-size:16px;color:var(--text-secondary);max-width:440px;margin:0 auto 28px;line-height:1.55;
+}
+.btn-hero{font-size:17px;padding:16px 34px;}
+
+/* ---------- activity grid ---------- */
+.activities{padding:20px 20px 70px;}
+.section-heading{
+  font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;text-align:center;margin:0 0 22px;
+}
+.activity-grid{
+  max-width:880px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;
+}
+.activity-card{
+  background:var(--surface);
+  border:2px solid var(--surface-border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-pop);
+  padding:24px 20px;
+  text-align:center;
+  text-decoration:none;
+  color:var(--text-primary);
+  transition:transform .15s ease;
+}
+a.activity-card:hover{transform:translateY(-3px);}
+.activity-emoji{font-size:34px;display:block;margin-bottom:10px;}
+.activity-card h3{font-family:'Fredoka',sans-serif;font-weight:600;font-size:17px;margin:0 0 6px;}
+.activity-card p{font-size:13px;color:var(--text-secondary);margin:0;line-height:1.5;}
+.activity-card.coming-soon{opacity:0.55;cursor:default;}
+.activity-card.coming-soon p{font-weight:600;letter-spacing:.03em;text-transform:uppercase;font-size:11px;}
+
+/* ---------- footer ---------- */
+.site-footer{
+  text-align:center;padding:26px 20px 40px;
+  font-size:12.5px;color:var(--text-faint);
+}
+
+@media(max-width:480px){
+  .hero-title{font-size:32px;}
+  .hero{padding:48px 16px 30px;}
+}
