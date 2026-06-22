@@ -40,74 +40,135 @@
   <section class="hero" aria-label="Welcome">
 
     <!--
-      PCB circuit traces — signature element.
-      Routing rules: 90° corners only, square endcaps, vias at every junction.
-      Signal speed: 500 px/s. Two color channels: pink (#FF2D78) and violet (#A020F0).
-      Hidden below 900px via CSS.
+      PCB circuit board — 13 multi-bend traces, 20 via circles.
+      Signal speed: 500 px/s. Two channels: pink (#FF2D78) + violet (#A020F0).
+      P1 (pink bus) and P2 (violet bus) launch at t=0; all branches fire when
+      the bus signal arrives at their tap point. Total animation: ~5.5s.
+      Routing rules: 90° corners only, square endcaps. Hidden below 900px.
     -->
     <svg class="circuit-svg" viewBox="0 0 1440 700" preserveAspectRatio="xMinYMin meet" aria-hidden="true" focusable="false">
 
-      <!-- ═══ PINK TRACES: A (top bus), D (right mid horizontal), E (right detail drop) ═══ -->
-      <g style="filter: drop-shadow(0 0 3px rgba(255,45,120,0.7)) drop-shadow(0 0 10px rgba(255,45,120,0.2))">
-        <!-- TRACE A  M80,40 → H1360  len=1280  delay=0s  dur=2.56s -->
-        <path d="M 80,40 H 1360"
+      <!-- ═══ PINK TRACES ═══════════════════════════════════════════════════ -->
+      <g style="filter: drop-shadow(0 0 4px rgba(255,45,120,0.9)) drop-shadow(0 0 14px rgba(255,45,120,0.3))">
+
+        <!-- P1  top horizontal bus   M0,40→H1440   len=1440  t=0  dur=2.88s -->
+        <path d="M 0,40 H 1440"
           stroke="#FF2D78" stroke-width="2" fill="none" stroke-linecap="square"
-          style="stroke-dasharray:1280;stroke-dashoffset:1280;animation:draw-trace 2.56s ease-out 0s forwards"/>
-        <!-- TRACE D  M960,200 → H1360  len=400  delay=2.08s  dur=0.80s -->
-        <path d="M 960,200 H 1360"
+          style="stroke-dasharray:1440;stroke-dashoffset:1440;animation:draw-trace 2.88s ease-out 0s forwards"/>
+
+        <!-- P3  tap x=160: ↓ → ↓ → ←   len=1080  t=0.32s  dur=2.16s -->
+        <path d="M 160,40 V 200 H 560 V 400 H 240"
           stroke="#FF2D78" stroke-width="1.5" fill="none" stroke-linecap="square"
-          style="stroke-dasharray:400;stroke-dashoffset:400;animation:draw-trace 0.80s ease-out 2.08s forwards"/>
-        <!-- TRACE E  M1200,40 → V200  len=160  delay=2.24s  dur=0.32s -->
-        <path d="M 1200,40 V 200"
+          style="stroke-dasharray:1080;stroke-dashoffset:1080;animation:draw-trace 2.16s ease-out 0.32s forwards"/>
+
+        <!-- P5  tap x=480: ↓ → ↓ ← ↓   len=1080  t=0.96s  dur=2.16s -->
+        <path d="M 480,40 V 120 H 880 V 320 H 640 V 480"
+          stroke="#FF2D78" stroke-width="1.5" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:1080;stroke-dashoffset:1080;animation:draw-trace 2.16s ease-out 0.96s forwards"/>
+
+        <!-- P7  tap x=800: ↓ → ↓ ← ↓   len=1320  t=1.60s  dur=2.64s -->
+        <path d="M 800,40 V 160 H 1360 V 400 H 1120 V 560"
+          stroke="#FF2D78" stroke-width="1.5" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:1320;stroke-dashoffset:1320;animation:draw-trace 2.64s ease-out 1.60s forwards"/>
+
+        <!-- P9  tap x=1040: ↓ → ↓ ← ↓   len=1080  t=2.08s  dur=2.16s -->
+        <path d="M 1040,40 V 200 H 1280 V 400 H 1000 V 600"
           stroke="#FF2D78" stroke-width="1" fill="none" stroke-linecap="square"
-          style="stroke-dasharray:160;stroke-dashoffset:160;animation:draw-trace 0.32s ease-out 2.24s forwards"/>
+          style="stroke-dasharray:1080;stroke-dashoffset:1080;animation:draw-trace 2.16s ease-out 2.08s forwards"/>
+
+        <!-- P11  tap x=1280: ↓ ← ↓   len=680  t=2.56s  dur=1.36s -->
+        <path d="M 1280,40 V 240 H 1040 V 480"
+          stroke="#FF2D78" stroke-width="1" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:680;stroke-dashoffset:680;animation:draw-trace 1.36s ease-out 2.56s forwards"/>
+
       </g>
 
-      <!-- ═══ VIOLET TRACES: B (left vertical), C-v (right main vertical) ═══ -->
-      <g style="filter: drop-shadow(0 0 3px rgba(160,32,240,0.7)) drop-shadow(0 0 10px rgba(160,32,240,0.2))">
-        <!-- TRACE B  M80,40 → V560  len=520  delay=0s  dur=1.04s -->
-        <path d="M 80,40 V 560"
+      <!-- ═══ VIOLET TRACES ════════════════════════════════════════════════ -->
+      <g style="filter: drop-shadow(0 0 4px rgba(160,32,240,0.9)) drop-shadow(0 0 14px rgba(160,32,240,0.3))">
+
+        <!-- P2  left vertical bus   M0,40→V680   len=640  t=0  dur=1.28s -->
+        <path d="M 0,40 V 680"
           stroke="#A020F0" stroke-width="2" fill="none" stroke-linecap="square"
-          style="stroke-dasharray:520;stroke-dashoffset:520;animation:draw-trace 1.04s ease-out 0s forwards"/>
-        <!-- TRACE C-v  M960,40 → V480  len=440  delay=1.76s  dur=0.88s -->
-        <path d="M 960,40 V 480"
+          style="stroke-dasharray:640;stroke-dashoffset:640;animation:draw-trace 1.28s ease-out 0s forwards"/>
+
+        <!-- P4  tap y=200: → ↓ → ↓   len=1080  t=0.32s  dur=2.16s -->
+        <path d="M 0,200 H 360 V 360 H 720 V 560"
           stroke="#A020F0" stroke-width="1.5" fill="none" stroke-linecap="square"
-          style="stroke-dasharray:440;stroke-dashoffset:440;animation:draw-trace 0.88s ease-out 1.76s forwards"/>
+          style="stroke-dasharray:1080;stroke-dashoffset:1080;animation:draw-trace 2.16s ease-out 0.32s forwards"/>
+
+        <!-- P6  tap y=360: → ↑ → ↑ →   len=1000  t=0.64s  dur=2.00s -->
+        <path d="M 0,360 H 320 V 200 H 480 V 80 H 720"
+          stroke="#A020F0" stroke-width="1.5" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw-trace 2.00s ease-out 0.64s forwards"/>
+
+        <!-- P8  tap y=560: → ↑ → ↑ ←   len=960  t=1.04s  dur=1.92s -->
+        <path d="M 0,560 H 240 V 400 H 400 V 240 H 160"
+          stroke="#A020F0" stroke-width="1" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:960;stroke-dashoffset:960;animation:draw-trace 1.92s ease-out 1.04s forwards"/>
+
+        <!-- P10  branch from (720,360) when P4 arrives: ↓ → ↑ →   len=800  t=2.08s  dur=1.60s -->
+        <path d="M 720,360 V 480 H 960 V 280 H 1200"
+          stroke="#A020F0" stroke-width="1" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:800;stroke-dashoffset:800;animation:draw-trace 1.60s ease-out 2.08s forwards"/>
+
+        <!-- P12  tap y=680: → ↑ → ↓ →   len=1240  t=1.28s  dur=2.48s -->
+        <path d="M 0,680 H 480 V 520 H 720 V 640 H 960"
+          stroke="#A020F0" stroke-width="0.8" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:1240;stroke-dashoffset:1240;animation:draw-trace 2.48s ease-out 1.28s forwards"/>
+
+        <!-- P13  branch from (1120,560) when P7 ends: ← ↓ ←   len=600  t=4.24s  dur=1.20s -->
+        <path d="M 1120,560 H 880 V 680 H 640"
+          stroke="#A020F0" stroke-width="0.8" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:600;stroke-dashoffset:600;animation:draw-trace 1.20s ease-out 4.24s forwards"/>
+
       </g>
 
-      <!-- ═══ VIAS — PINK ═══ -->
-      <g style="filter: drop-shadow(0 0 6px #FF2D78)">
-        <!-- (80,40)   A/B junction   fires 0.05s -->
-        <circle cx="80"   cy="40"  r="4"   fill="#FF2D78" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 0.05s forwards"/>
-        <!-- (1200,40) A passes / E starts   fires 2.26s -->
-        <circle cx="1200" cy="40"  r="3"   fill="#FF2D78" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 2.26s forwards"/>
-        <!-- (1360,40) A terminus   fires 2.60s -->
-        <circle cx="1360" cy="40"  r="3.5" fill="#FF2D78" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 2.60s forwards"/>
-        <!-- (1200,200) E terminus / D passes   fires 2.58s -->
-        <circle cx="1200" cy="200" r="3.5" fill="#FF2D78" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 2.58s forwards"/>
-        <!-- (1360,200) D terminus   fires 2.92s -->
-        <circle cx="1360" cy="200" r="3"   fill="#FF2D78" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 2.92s forwards"/>
+      <!-- ═══ VIAS — PINK ════════════════════════════════════════════════ -->
+      <g style="filter: drop-shadow(0 0 7px #FF2D78) drop-shadow(0 0 2px rgba(255,255,255,0.4))">
+        <!-- (0,40) origin -->
+        <circle cx="0"    cy="40"  r="5"   fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 0.05s forwards"/>
+        <!-- (160,40) P3 tap -->
+        <circle cx="160"  cy="40"  r="3.5" fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 0.37s forwards"/>
+        <!-- (480,40) P5 tap -->
+        <circle cx="480"  cy="40"  r="3.5" fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 1.01s forwards"/>
+        <!-- (800,40) P7 tap -->
+        <circle cx="800"  cy="40"  r="3.5" fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 1.65s forwards"/>
+        <!-- (1040,40) P9 tap -->
+        <circle cx="1040" cy="40"  r="3.5" fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 2.13s forwards"/>
+        <!-- (1280,40) P11 tap -->
+        <circle cx="1280" cy="40"  r="3.5" fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 2.61s forwards"/>
+        <!-- (1440,40) P1 terminus -->
+        <circle cx="1440" cy="40"  r="3"   fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 2.93s forwards"/>
+        <!-- (1120,560) P7 terminus / P13 source -->
+        <circle cx="1120" cy="560" r="4"   fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 4.29s forwards"/>
+        <!-- (640,480) P5 terminus -->
+        <circle cx="640"  cy="480" r="3"   fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 3.17s forwards"/>
+        <!-- (1000,600) P9 terminus -->
+        <circle cx="1000" cy="600" r="3"   fill="#FF2D78" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 4.29s forwards"/>
       </g>
 
-      <!-- ═══ VIAS — VIOLET ═══ -->
-      <g style="filter: drop-shadow(0 0 6px #A020F0)">
-        <!-- (960,40)  A passes / C-v starts   fires 1.80s -->
-        <circle cx="960" cy="40"  r="4"   fill="#A020F0" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 1.80s forwards"/>
-        <!-- (960,200) C-v passes / D starts   fires 2.10s -->
-        <circle cx="960" cy="200" r="3.5" fill="#A020F0" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 2.10s forwards"/>
-        <!-- (80,560)  B terminus   fires 1.08s -->
-        <circle cx="80"  cy="560" r="3"   fill="#A020F0" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 1.08s forwards"/>
-        <!-- (960,480) C-v terminus   fires 2.68s -->
-        <circle cx="960" cy="480" r="3"   fill="#A020F0" class="circuit-via"
-          style="opacity:0;animation:via-pop 0.35s ease-out 2.68s forwards"/>
+      <!-- ═══ VIAS — VIOLET ══════════════════════════════════════════════ -->
+      <g style="filter: drop-shadow(0 0 7px #A020F0) drop-shadow(0 0 2px rgba(255,255,255,0.4))">
+        <!-- (0,200) P4 tap -->
+        <circle cx="0"    cy="200" r="3.5" fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 0.37s forwards"/>
+        <!-- (0,360) P6 tap -->
+        <circle cx="0"    cy="360" r="3.5" fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 0.69s forwards"/>
+        <!-- (0,560) P8 tap -->
+        <circle cx="0"    cy="560" r="3.5" fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 1.09s forwards"/>
+        <!-- (0,680) P12 tap / P2 terminus -->
+        <circle cx="0"    cy="680" r="3.5" fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 1.33s forwards"/>
+        <!-- (720,360) P4 bend / P10 source -->
+        <circle cx="720"  cy="360" r="4"   fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 2.13s forwards"/>
+        <!-- (720,560) P4 terminus -->
+        <circle cx="720"  cy="560" r="3"   fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 2.53s forwards"/>
+        <!-- (960,640) P12 terminus -->
+        <circle cx="960"  cy="640" r="3"   fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 3.81s forwards"/>
+        <!-- (1200,280) P10 terminus -->
+        <circle cx="1200" cy="280" r="3"   fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 3.73s forwards"/>
+        <!-- (640,680) P13 terminus -->
+        <circle cx="640"  cy="680" r="3"   fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 5.49s forwards"/>
+        <!-- (160,240) P8 terminus -->
+        <circle cx="160"  cy="240" r="2.5" fill="#A020F0" class="circuit-via" style="opacity:0;animation:via-pop 0.35s ease-out 3.01s forwards"/>
       </g>
 
     </svg>

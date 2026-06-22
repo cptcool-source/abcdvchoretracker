@@ -381,14 +381,14 @@ body {
 .hero-content {
   position: relative;
   z-index: 1;
-  padding: 80px 80px 100px;
+  padding: 80px 80px 100px 180px;
   max-width: 860px;
 }
 
 .hero-title {
   font-family: 'Syne', sans-serif;
   font-weight: 900;
-  font-size: clamp(62px, 8.5vw, 108px);
+  font-size: clamp(93px, 12.75vw, 162px);
   line-height: 0.9;
   letter-spacing: -0.04em;
   color: var(--text-primary);
@@ -403,8 +403,8 @@ body {
   background: var(--neon-pink);
   box-shadow: 0 0 14px rgba(255, 45, 120, 0.75);
   margin-bottom: 28px;
-  /* fires roughly when TRACE C horizontal would arrive */
-  animation: underline-grow 0.55s ease-out 2.1s both;
+  /* fires near mid-animation as the circuit board fills */
+  animation: underline-grow 0.55s ease-out 3.5s both;
 }
 @keyframes underline-grow {
   to { width: 210px; }
