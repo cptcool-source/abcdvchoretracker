@@ -2,9 +2,9 @@
 // Mom's Study Zone — NCLEX-PN quiz, daily goal, notepad (Firestore-synced)
 // ==========================================================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, collection, addDoc, deleteDoc, onSnapshot, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js";
+import { firebaseConfig, FAMILY_EMAIL, PASSWORD_PREFIX } from "./firebase-config.js";
 
 (function () {
   "use strict";
@@ -247,7 +247,6 @@ import { firebaseConfig } from "./firebase-config.js";
   ];
 
   // ── State ────────────────────────────────────────────────────────────────
-  var inited = false;
   var currentQuizIds = [];
   var bonusId = null;
   var currentVideoIdx = -1;
@@ -742,19 +741,68 @@ import { firebaseConfig } from "./firebase-config.js";
     bindEvents();
   }
 
+  function showApp() {
+    document.getElementById("auth-loading").setAttribute("hidden", "");
+    document.getElementById("passcode-gate").setAttribute("hidden", "");
+    document.getElementById("study-root").removeAttribute("hidden");
+    document.getElementById("site-footer").removeAttribute("hidden");
+  }
+
+  function showGate() {
+    document.getElementById("auth-loading").setAttribute("hidden", "");
+    document.getElementById("passcode-gate").removeAttribute("hidden");
+  }
+
+  // ── Gate digit inputs ────────────────────────────────────────────────────
+  function bindGate() {
+    var digits = Array.from(document.querySelectorAll(".gate-digit"));
+
+    digits.forEach(function (input, i) {
+      input.addEventListener("input", function () {
+        var val = input.value.replace(/\D/g, "");
+        input.value = val.slice(-1);
+        if (val && i < digits.length - 1) digits[i + 1].focus();
+      });
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Backspace" && !input.value && i > 0) digits[i - 1].focus();
+        if (e.key === "Enter") submitGate();
+      });
+    });
+
+    document.getElementById("gate-submit").addEventListener("click", submitGate);
+
+    document.getElementById("lock-btn").addEventListener("click", function () {
+      signOut(auth).then(function () { location.reload(); });
+    });
+  }
+
+  function submitGate() {
+    var digits = Array.from(document.querySelectorAll(".gate-digit"));
+    var code = digits.map(function (d) { return d.value; }).join("");
+    if (code.length < 4) return;
+
+    var errEl = document.getElementById("gate-error");
+    errEl.setAttribute("hidden", "");
+
+    signInWithEmailAndPassword(auth, FAMILY_EMAIL, PASSWORD_PREFIX + code)
+      .catch(function () {
+        errEl.removeAttribute("hidden");
+        digits.forEach(function (d) { d.value = ""; });
+        digits[0].focus();
+      });
+  }
+
+  bindGate();
+
   onAuthStateChanged(auth, function (user) {
     if (user) {
       uid = user.uid;
       loadDaily();
       loadNotes();
-      if (!inited) { inited = true; init(); }
+      showApp();
+      init();
     } else {
-      signInAnonymously(auth).catch(function (err) {
-        console.warn("anon auth failed", err);
-        uid = "local";
-        if (!inited) { inited = true; init(); }
-        renderDailyBanner();
-      });
+      showGate();
     }
   });
 
