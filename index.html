@@ -2,70 +2,192 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Family Hub</title>
+
+<!-- Fonts: Syne (display) + Geist Mono (data) from Google; Satoshi (body) from Fontshare -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+
+<!-- Icons: Phosphor Duotone -->
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+
 <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
 <header class="site-nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">✨ Family Hub</a>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="chores.html">Chores</a>
-      <a href="memories.html">Memories</a>
-      <a href="study.html">Study Zone</a>
+    <a href="index.html" class="nav-logo">
+      <i class="ph-duotone ph-duotone-circles-three-plus nav-logo-icon" aria-hidden="true"></i>
+      <span class="nav-logo-text">Family Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html" class="nav-link active" aria-current="page">Home</a>
+      <a href="chores.html" class="nav-link">Chores</a>
+      <a href="memories.html" class="nav-link">Memories</a>
+      <a href="study.html" class="nav-link">Study Zone</a>
     </nav>
   </div>
 </header>
 
 <main>
-  <section class="hero">
-    <span class="hero-decor">🦋✨💫</span>
-    <h1 class="hero-title">Family Hub</h1>
-    <p class="hero-tagline">Your family's home base for chores, plans, and good vibes — all in one place.</p>
-    <a href="chores.html" class="btn btn-primary btn-hero">Start having fun! 🎉</a>
+
+  <!-- ── Hero ───────────────────────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Welcome">
+
+    <!--
+      PCB circuit traces — signature element.
+      Routing rules: 90° corners only, square endcaps, vias at every junction.
+      Signal speed: 500 px/s. Two color channels: pink (#FF2D78) and violet (#A020F0).
+      Hidden below 900px via CSS.
+    -->
+    <svg class="circuit-svg" viewBox="0 0 1440 700" preserveAspectRatio="xMinYMin meet" aria-hidden="true" focusable="false">
+
+      <!-- ═══ PINK TRACES: A (top bus), D (right mid horizontal), E (right detail drop) ═══ -->
+      <g style="filter: drop-shadow(0 0 3px rgba(255,45,120,0.7)) drop-shadow(0 0 10px rgba(255,45,120,0.2))">
+        <!-- TRACE A  M80,40 → H1360  len=1280  delay=0s  dur=2.56s -->
+        <path d="M 80,40 H 1360"
+          stroke="#FF2D78" stroke-width="2" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:1280;stroke-dashoffset:1280;animation:draw-trace 2.56s ease-out 0s forwards"/>
+        <!-- TRACE D  M960,200 → H1360  len=400  delay=2.08s  dur=0.80s -->
+        <path d="M 960,200 H 1360"
+          stroke="#FF2D78" stroke-width="1.5" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:400;stroke-dashoffset:400;animation:draw-trace 0.80s ease-out 2.08s forwards"/>
+        <!-- TRACE E  M1200,40 → V200  len=160  delay=2.24s  dur=0.32s -->
+        <path d="M 1200,40 V 200"
+          stroke="#FF2D78" stroke-width="1" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:160;stroke-dashoffset:160;animation:draw-trace 0.32s ease-out 2.24s forwards"/>
+      </g>
+
+      <!-- ═══ VIOLET TRACES: B (left vertical), C-v (right main vertical) ═══ -->
+      <g style="filter: drop-shadow(0 0 3px rgba(160,32,240,0.7)) drop-shadow(0 0 10px rgba(160,32,240,0.2))">
+        <!-- TRACE B  M80,40 → V560  len=520  delay=0s  dur=1.04s -->
+        <path d="M 80,40 V 560"
+          stroke="#A020F0" stroke-width="2" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:520;stroke-dashoffset:520;animation:draw-trace 1.04s ease-out 0s forwards"/>
+        <!-- TRACE C-v  M960,40 → V480  len=440  delay=1.76s  dur=0.88s -->
+        <path d="M 960,40 V 480"
+          stroke="#A020F0" stroke-width="1.5" fill="none" stroke-linecap="square"
+          style="stroke-dasharray:440;stroke-dashoffset:440;animation:draw-trace 0.88s ease-out 1.76s forwards"/>
+      </g>
+
+      <!-- ═══ VIAS — PINK ═══ -->
+      <g style="filter: drop-shadow(0 0 6px #FF2D78)">
+        <!-- (80,40)   A/B junction   fires 0.05s -->
+        <circle cx="80"   cy="40"  r="4"   fill="#FF2D78" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 0.05s forwards"/>
+        <!-- (1200,40) A passes / E starts   fires 2.26s -->
+        <circle cx="1200" cy="40"  r="3"   fill="#FF2D78" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 2.26s forwards"/>
+        <!-- (1360,40) A terminus   fires 2.60s -->
+        <circle cx="1360" cy="40"  r="3.5" fill="#FF2D78" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 2.60s forwards"/>
+        <!-- (1200,200) E terminus / D passes   fires 2.58s -->
+        <circle cx="1200" cy="200" r="3.5" fill="#FF2D78" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 2.58s forwards"/>
+        <!-- (1360,200) D terminus   fires 2.92s -->
+        <circle cx="1360" cy="200" r="3"   fill="#FF2D78" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 2.92s forwards"/>
+      </g>
+
+      <!-- ═══ VIAS — VIOLET ═══ -->
+      <g style="filter: drop-shadow(0 0 6px #A020F0)">
+        <!-- (960,40)  A passes / C-v starts   fires 1.80s -->
+        <circle cx="960" cy="40"  r="4"   fill="#A020F0" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 1.80s forwards"/>
+        <!-- (960,200) C-v passes / D starts   fires 2.10s -->
+        <circle cx="960" cy="200" r="3.5" fill="#A020F0" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 2.10s forwards"/>
+        <!-- (80,560)  B terminus   fires 1.08s -->
+        <circle cx="80"  cy="560" r="3"   fill="#A020F0" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 1.08s forwards"/>
+        <!-- (960,480) C-v terminus   fires 2.68s -->
+        <circle cx="960" cy="480" r="3"   fill="#A020F0" class="circuit-via"
+          style="opacity:0;animation:via-pop 0.35s ease-out 2.68s forwards"/>
+      </g>
+
+    </svg>
+
+    <!-- Hero copy -->
+    <div class="hero-content">
+      <h1 class="hero-title">Family<br>Hub</h1>
+      <div class="hero-underline" aria-hidden="true"></div>
+      <p class="hero-sub">Your family's home base — chores, memories, and study tools in one place.</p>
+      <a href="chores.html" class="hero-cta">
+        Explore <i class="cta-arrow" aria-hidden="true">→</i>
+      </a>
+    </div>
+
   </section>
 
-  <section class="activities">
-    <h2 class="section-heading">What's inside</h2>
-    <div class="activity-grid">
-      <a href="chores.html" class="activity-card">
-        <span class="activity-emoji">🧹</span>
-        <h3>Chore Squad</h3>
-        <p>Check off chores, track who's up next, and keep the house running.</p>
+  <!-- ── Card grid ──────────────────────────────────────────────────────────── -->
+  <section class="cards-section" aria-labelledby="cards-label">
+    <p class="section-label" id="cards-label">What's inside</p>
+    <div class="cards-grid" id="cards-grid">
+
+      <!-- Chores -->
+      <a href="chores.html" class="card card-live card-lg" style="--card-accent:var(--neon-violet)">
+        <i class="ph-duotone ph-duotone-sparkle card-icon" aria-hidden="true"></i>
+        <h2 class="card-title">Chore Squad</h2>
+        <p class="card-desc">Track who's up next and keep the house running smoothly.</p>
       </a>
-      <a href="memories.html" class="activity-card">
-        <span class="activity-emoji">📸</span>
-        <h3>Family Memories</h3>
-        <p>Build your photo timeline and keep important family files in one place.</p>
+
+      <!-- Memories -->
+      <a href="memories.html" class="card card-live card-lg" style="--card-accent:var(--neon-pink)">
+        <i class="ph-duotone ph-duotone-film-strip card-icon" aria-hidden="true"></i>
+        <h2 class="card-title">Family Memories</h2>
+        <p class="card-desc">Your family's story, one photo at a time.</p>
       </a>
-      <a href="study.html" class="activity-card">
-        <span class="activity-emoji">📚</span>
-        <h3>Mom's Study Zone</h3>
-        <p>NCLEX-PN quiz practice, daily goals, video resources, and notes — all in one place.</p>
+
+      <!-- Study Zone -->
+      <a href="study.html" class="card card-live card-md" style="--card-accent:var(--neon-teal)">
+        <i class="ph-duotone ph-duotone-heartbeat card-icon" aria-hidden="true"></i>
+        <h2 class="card-title">Mom's Study Zone</h2>
+        <p class="card-desc">NCLEX-PN prep — daily goals, quiz sets, video resources, and notes.</p>
       </a>
-      <div class="activity-card coming-soon">
-        <span class="activity-emoji">🗓️</span>
-        <h3>Family Calendar</h3>
-        <p>Coming soon</p>
+
+      <!-- Calendar — coming soon -->
+      <div class="card card-soon card-smd" style="--card-accent:var(--neon-amber)" aria-label="Family Calendar — coming soon">
+        <span class="card-soon-badge" aria-hidden="true">Coming soon</span>
+        <i class="ph-duotone ph-duotone-clock-countdown card-icon" aria-hidden="true"></i>
+        <h2 class="card-title">Family Calendar</h2>
+        <p class="card-desc">Shared events, reminders, and countdowns.</p>
       </div>
-      <div class="activity-card coming-soon">
-        <span class="activity-emoji">🍝</span>
-        <h3>Meal Planner</h3>
-        <p>Coming soon</p>
+
+      <!-- Meals — coming soon -->
+      <div class="card card-soon card-sm" style="--card-accent:var(--neon-amber)" aria-label="Meal Planner — coming soon">
+        <span class="card-soon-badge" aria-hidden="true">Coming soon</span>
+        <i class="ph-duotone ph-duotone-fire card-icon" aria-hidden="true"></i>
+        <h2 class="card-title">Meal Planner</h2>
+        <p class="card-desc">Weekly dinners, sorted.</p>
       </div>
+
     </div>
   </section>
+
 </main>
 
 <footer class="site-footer">
-  Made with 💖 for our family
+  <span class="footer-text">Family Hub · 2026</span>
 </footer>
 
-<script src="js/script.js"></script>
+<script>
+  // Scroll-reveal: only live cards (not coming-soon, which start at 0.5 opacity via CSS)
+  var cards = document.querySelectorAll('#cards-grid .card:not(.card-soon)');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  cards.forEach(function(c) { observer.observe(c); });
+</script>
+
 </body>
 </html>
