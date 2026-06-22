@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mom's Study Zone — Family Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/study.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">✨ Family Hub</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="chores.html">Chores</a>
+      <a href="memories.html">Memories</a>
+      <a href="study.html">Study Zone</a>
+    </nav>
+  </div>
+</header>
+
+<main id="study-root">
+
+  <!-- ── Hero ── -->
+  <section class="study-hero">
+    <span class="study-decor">📚✨🩺</span>
+    <h1 class="study-title">Mom's Study Zone</h1>
+    <p class="study-sub">NCLEX-PN prep — one question set at a time. You've got this! 💪</p>
+  </section>
+
+  <!-- ── Daily Goal Banner ── -->
+  <div class="daily-banner-wrap">
+    <div class="daily-banner" id="daily-banner">
+      <span class="daily-label">Today's Goal</span>
+      <div class="daily-progress-row">
+        <div class="daily-track"><div class="daily-fill" id="daily-fill" style="width:0%"></div></div>
+        <span class="daily-count" id="daily-count">0 / 9</span>
+      </div>
+      <span class="daily-status" id="daily-status">Keep going!</span>
+    </div>
+    <button class="stats-toggle-btn" id="stats-toggle-btn" aria-expanded="false">📊 Stats</button>
+  </div>
+
+  <!-- ── Stats Panel (hidden by default) ── -->
+  <div class="stats-panel" id="stats-panel" hidden>
+    <div class="stats-inner">
+      <div class="stat-chip"><span class="stat-num" id="stat-total">0</span><span class="stat-lbl">Answered</span></div>
+      <div class="stat-chip"><span class="stat-num" id="stat-correct">0</span><span class="stat-lbl">Correct</span></div>
+      <div class="stat-chip"><span class="stat-num" id="stat-streak">0</span><span class="stat-lbl">Streak</span></div>
+      <div class="stat-chip"><span class="stat-num" id="stat-pct">—</span><span class="stat-lbl">Accuracy</span></div>
+    </div>
+  </div>
+
+  <!-- ── Quiz Section ── -->
+  <section class="quiz-section">
+    <div class="quiz-header-row">
+      <h2 class="quiz-heading">Question Set</h2>
+      <button class="btn btn-outline btn-sm" id="refresh-btn">🔄 New Set</button>
+    </div>
+
+    <div id="quiz-cards" class="quiz-cards"></div>
+
+    <div class="quiz-actions">
+      <button class="btn btn-primary" id="check-all-btn" disabled>Check All Answers</button>
+    </div>
+
+    <!-- Daily goal complete celebration -->
+    <div class="goal-celebrate" id="goal-celebrate" hidden>
+      <span class="celebrate-emoji">🎉</span>
+      <p class="celebrate-text">Daily goal complete! Amazing work, Mom! 💖</p>
+    </div>
+  </section>
+
+  <!-- ── Bonus Question ── -->
+  <section class="bonus-section">
+    <div class="bonus-header">
+      <span class="bonus-badge">✨ Bonus</span>
+      <h2 class="bonus-heading">Free Question</h2>
+    </div>
+    <div class="bonus-card" id="bonus-card">
+      <p class="bonus-q" id="bonus-q"></p>
+      <div class="bonus-answer" id="bonus-answer"></div>
+    </div>
+  </section>
+
+  <!-- ── YouTube Video ── -->
+  <section class="video-section">
+    <div class="video-header-row">
+      <h2 class="video-heading">📺 NCLEX Video</h2>
+      <button class="btn btn-outline btn-sm" id="video-refresh-btn">🔄 New Video</button>
+    </div>
+    <div class="video-wrap">
+      <iframe id="yt-frame" class="yt-frame" frameborder="0" allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        title="NCLEX-PN Study Video"></iframe>
+    </div>
+  </section>
+
+  <!-- ── Notepad Widget ── -->
+  <section class="notepad-section">
+    <button class="notepad-toggle" id="notepad-toggle" aria-expanded="true">
+      <span>📝 Notes</span>
+      <span class="toggle-caret" id="notepad-caret">▲</span>
+    </button>
+    <div class="notepad-body" id="notepad-body">
+      <textarea class="notepad-input" id="notepad-input" rows="4" placeholder="Type a note…"></textarea>
+      <div class="notepad-footer">
+        <button class="btn btn-primary btn-sm" id="note-save-btn">Save Note</button>
+      </div>
+      <div class="notes-list-wrap">
+        <button class="notes-list-toggle" id="notes-list-toggle" aria-expanded="true">
+          <span>Saved Notes</span><span class="toggle-caret" id="notes-list-caret">▲</span>
+        </button>
+        <div id="notes-list" class="notes-list"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  Made with 💖 for our family
+</footer>
+
+<script type="module" src="js/study.js"></script>
+</body>
+</html>
