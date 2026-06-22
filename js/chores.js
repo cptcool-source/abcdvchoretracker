@@ -100,7 +100,9 @@ import { firebaseConfig, FAMILY_EMAIL, PASSWORD_PREFIX } from "./firebase-config
       });
   }
 
+  console.log("[FamilyHub] module loaded, DOM:", {authLoadingEl: !!document.getElementById("auth-loading"), gateEl: !!document.getElementById("passcode-gate"), appRootEl: !!document.getElementById("chore-app-root")});
   onAuthStateChanged(auth, function (user) {
+    console.log("[FamilyHub] onAuthStateChanged fired, user:", user ? user.email : "null");
     authLoadingEl.hidden = true;
     if (user) {
       gateEl.hidden = true;
@@ -120,6 +122,7 @@ import { firebaseConfig, FAMILY_EMAIL, PASSWORD_PREFIX } from "./firebase-config
 
   // ---------- live data sync (Firebase Realtime Database) ----------
   function subscribeToChores() {
+    console.log("[FamilyHub] subscribeToChores called, choresRef:", choresRef ? choresRef.toString() : "null");
     state.loading = true;
     render();
     unsubscribeChores = onValue(choresRef, function (snapshot) {
