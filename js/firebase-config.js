@@ -22,3 +22,10 @@ export const firebaseConfig = {
 // this). No need to change these unless you want to.
 export const FAMILY_EMAIL = "family@chore-squad.local";
 export const PASSWORD_PREFIX = "famhub-";
+
+// Cloudinary — free file hosting for the Memories page (photos + documents).
+// Free plan at cloudinary.com gives 25 GB storage, no credit card needed.
+// Setup: 1) Sign up at cloudinary.com  2) Copy your "Cloud name" from the Dashboard
+//        3) Settings → Upload → Add upload preset → Signing Mode: Unsigned → copy preset name
+export const CLOUDINARY_CLOUD_NAME    = "davihhyyt";
+export const CLOUDINARY_UPLOAD_PRESET = "ldhu9tbp";

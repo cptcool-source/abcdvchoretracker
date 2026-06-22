@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Family Memories — Family Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/memories.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">✨ Family Hub</a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="chores.html">Chores</a>
+      <a href="memories.html">Memories</a>
+    </nav>
+  </div>
+</header>
+
+<div id="auth-loading" class="loading-state">Checking your passcode… ✨</div>
+
+<div id="passcode-gate" class="gate-overlay" hidden>
+  <div class="gate-card surface">
+    <span class="gate-emoji">🔒</span>
+    <h2 class="gate-title">Family Passcode</h2>
+    <p class="gate-sub">Enter the 4-digit code to unlock Family Memories</p>
+    <div class="gate-inputs" id="gate-inputs">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+    </div>
+    <p class="gate-error" id="gate-error" hidden>😬 Wrong code — try again!</p>
+    <button class="btn btn-primary" id="gate-submit">Unlock ✨</button>
+  </div>
+</div>
+
+<main id="mem-root" hidden>
+
+  <!-- Page hero -->
+  <div class="mem-hero">
+    <span class="mem-decor">📸✨🌸</span>
+    <h1 class="mem-title">Family Memories</h1>
+    <p class="mem-sub">Your family's story, one photo at a time 💛</p>
+  </div>
+
+  <!-- Photo timeline -->
+  <section class="mem-section">
+    <div class="upload-zone" id="photo-zone">
+      <input type="file" id="photo-input" accept="image/*" multiple hidden>
+      <button class="btn btn-primary" id="photo-btn">📷 Add Photos</button>
+      <p class="upload-hint">Tap to choose or drop photos here · max 20 MB each</p>
+    </div>
+    <div id="photo-progress"></div>
+    <div id="photo-timeline"></div>
+  </section>
+
+  <!-- Divider -->
+  <div class="mem-divider" aria-hidden="true">
+    <div class="mem-divider-pill">
+      <span>💌</span><span class="mem-divider-text">Family Files</span><span>📎</span>
+    </div>
+  </div>
+
+  <!-- Document vault -->
+  <section class="mem-section docs-section">
+    <h2 class="docs-heading">📁 Family Files</h2>
+
+    <div class="sensitivity-warning" role="note">
+      <strong>💛 Heads up!</strong> This is a shared family space. Please don't upload anything containing passwords, bank details, social security numbers, medical records, or other sensitive personal information.
+    </div>
+
+    <div class="upload-zone" id="doc-zone">
+      <input type="file" id="doc-input"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+        multiple hidden>
+      <button class="btn btn-primary" id="doc-btn">📎 Upload Files</button>
+      <p class="upload-hint">PDF, Word, Excel, PowerPoint · max 20 MB each</p>
+    </div>
+    <div id="doc-progress"></div>
+    <div id="doc-list"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="site-footer" hidden>
+  Made with 💖 for our family · <button class="footer-link-btn" id="lock-btn">🔒 Lock this device</button>
+</footer>
+
+<script type="module" src="js/memories.js"></script>
+</body>
+</html>
