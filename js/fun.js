@@ -346,7 +346,7 @@ function renderIdle() {
   if (gameMode === 'time-trial') {
     idleInfo.innerHTML = `
       <div class="idle-mode-title">⏱ Time Trial</div>
-      <div class="idle-mode-desc">10 questions · 20 seconds · all must be correct\n+15 points on completion</div>`;
+      <div class="idle-mode-desc">10 questions · 30 seconds · all must be correct\n+15 points on completion</div>`;
   } else {
     idleInfo.innerHTML = `
       <div class="idle-mode-title">🔥 On Fire</div>
@@ -402,8 +402,8 @@ function startTimeTrial() {
   startTime = performance.now();
   timerInterval = setInterval(() => {
     const elapsed   = performance.now() - startTime;
-    const remaining = Math.max(0, 20000 - elapsed);
-    timerBar.style.width    = (remaining / 20000 * 100) + '%';
+    const remaining = Math.max(0, 30000 - elapsed);
+    timerBar.style.width    = (remaining / 30000 * 100) + '%';
     timerText.textContent   = (remaining / 1000).toFixed(1);
     if (remaining <= 6000) timerBar.classList.add('danger');
     if (remaining <= 0)    timeTrialFail("Time's up!");
