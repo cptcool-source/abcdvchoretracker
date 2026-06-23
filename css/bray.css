@@ -1183,6 +1183,8 @@ textarea.bray-input {
   line-height: 1.6;
 }
 
+.byo-cat { color: var(--text-primary); }
+
 /* ── Signature drinks divider ─────────────────────────────────────────────── */
 .menu-section-label {
   font-family: 'Syne', sans-serif;
