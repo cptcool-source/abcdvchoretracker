@@ -30,7 +30,5 @@ export const PASSWORD_PREFIX = "famhub-";
 export const CLOUDINARY_CLOUD_NAME    = "davihhyyt";
 export const CLOUDINARY_UPLOAD_PRESET = "ldhu9tbp";
 
-// mAxI chatbot — free Gemini API key from Google AI Studio (aistudio.google.com).
-// Free tier: 1,500 requests/day, no credit card needed.
-// Get a key: aistudio.google.com → Get API key → Create API key in new project.
-export const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";
+// mAxI chatbot API key lives in js/secrets.js (gitignored).
+// See js/secrets.example.js for setup instructions.

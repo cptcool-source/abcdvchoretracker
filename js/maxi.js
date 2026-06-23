@@ -4,8 +4,9 @@
 // History is session-only: cleared when the page closes.
 // ==========================================================================
 
-import { firebaseConfig, FAMILY_EMAIL, PASSWORD_PREFIX, GEMINI_API_KEY }
+import { firebaseConfig, FAMILY_EMAIL, PASSWORD_PREFIX }
   from './firebase-config.js';
+import { GEMINI_API_KEY } from './secrets.js';
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
