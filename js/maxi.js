@@ -6,14 +6,16 @@
 
 import { firebaseConfig, FAMILY_EMAIL, PASSWORD_PREFIX }
   from './firebase-config.js';
-import { GEMINI_API_KEY } from './secrets.js';
 import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
   from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js';
+import { getFirestore, doc, getDoc }
+  from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js';
 
 // ── Gemini config ────────────────────────────────────────────────────────────
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+// Key is fetched from Firestore after auth so it never lives in any JS file.
+let geminiKey = '';
 
 const SYSTEM_PROMPT = `You are mAxI, a cheerful and patient golden doodle who helps middle schoolers (grades 6-8) with math. You are talking directly with a student.
 
@@ -51,10 +53,11 @@ const maxiStatus  = document.getElementById('maxi-status');
 // ── Firebase auth ─────────────────────────────────────────────────────────────
 const fbApp = initializeApp(firebaseConfig);
 const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
 
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async user => {
   authLoading.hidden = true;
-  if (user) showApp();
+  if (user) await showApp();
   else      gate.hidden = false;
 });
 
@@ -85,24 +88,33 @@ async function tryUnlock() {
   }
 }
 
-function showApp() {
-  gate.hidden        = false; // handled by auth state
-  gate.hidden        = true;
-  maxiRoot.hidden    = false;
-  siteFooter.hidden  = false;
-  chatInput.focus();
+async function showApp() {
+  gate.hidden       = true;
+  maxiRoot.hidden   = false;
+  siteFooter.hidden = false;
 
-  // Warn if the Gemini key hasn't been set up yet
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
+  // Fetch Gemini key from Firestore: config/secrets → { geminiKey: "..." }
+  // Protected by Firestore rules — only the authenticated family UID can read it.
+  try {
+    const snap = await getDoc(doc(db, 'config', 'secrets'));
+    geminiKey = snap.exists() ? (snap.data().geminiKey || '') : '';
+  } catch {
+    geminiKey = '';
+  }
+
+  if (!geminiKey) {
     appendBubble('maxi',
-      'Woof! I need a Gemini API key to work. ' +
-      'Head to **aistudio.google.com**, grab a free key, ' +
-      'and paste it into **js/firebase-config.js** where it says `GEMINI_API_KEY`.'
+      'Woof! I need one more thing to get started. ' +
+      'In the **Firestore console**, create a document at path `config/secrets` ' +
+      'with a field named `geminiKey` set to your API key from **aistudio.google.com**.'
     );
     chatInput.disabled = true;
     sendBtn.disabled   = true;
     activateChatMode();
+    return;
   }
+
+  chatInput.focus();
 }
 
 // Lock
@@ -198,7 +210,8 @@ async function handleSend() {
 async function fetchGemini(userText) {
   history.push({ role: 'user', parts: [{ text: userText }] });
 
-  const res = await fetch(GEMINI_URL, {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
+  const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
