@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Family Calendar — Family Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/calendar.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <i class="ph-duotone ph-duotone-circles-three-plus nav-logo-icon" aria-hidden="true"></i>
+      <span class="nav-logo-text">Family Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="chores.html" class="nav-link">Chores</a>
+      <a href="memories.html" class="nav-link">Memories</a>
+      <a href="study.html" class="nav-link">Study Zone</a>
+      <a href="maxi.html" class="nav-link">Ask mAxI</a>
+      <a href="fun.html" class="nav-link">Fun Zone</a>
+    </nav>
+  </div>
+</header>
+
+<div id="auth-loading" class="loading-state">Loading Family Calendar</div>
+
+<div id="passcode-gate" class="gate-overlay" hidden>
+  <div class="gate-card surface">
+    <i class="ph-duotone ph-duotone-calendar-dots gate-emoji" aria-hidden="true"></i>
+    <h2 class="gate-title">Family Calendar</h2>
+    <p class="gate-sub">Enter the family passcode</p>
+    <div class="gate-inputs" id="gate-inputs">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+    </div>
+    <p class="gate-error" id="gate-error" hidden>Wrong code — try again</p>
+    <button class="btn btn-primary" id="gate-submit">Unlock</button>
+  </div>
+</div>
+
+<!-- Device setup modal — only shown on first visit -->
+<div id="device-setup-modal" class="modal-overlay" hidden>
+  <div class="modal-card">
+    <div class="modal-icon"><i class="ph-duotone ph-duotone-calendar-dots" aria-hidden="true"></i></div>
+    <h3 class="modal-title">Set up this device</h3>
+    <p class="modal-sub">Your name and color will appear on events <em>you</em> add to the family calendar</p>
+    <input type="text" id="setup-name-input" class="cal-text-input"
+      placeholder="Your name (e.g. Mom)" maxlength="20" autocomplete="off">
+    <div class="color-palette" id="setup-palette" role="group" aria-label="Pick a color">
+      <button class="color-swatch" data-color="#4DA6FF" style="background:#4DA6FF" title="Blue" aria-label="Blue"></button>
+      <button class="color-swatch" data-color="#FF2D78" style="background:#FF2D78" title="Pink" aria-label="Pink"></button>
+      <button class="color-swatch" data-color="#A020F0" style="background:#A020F0" title="Violet" aria-label="Violet"></button>
+      <button class="color-swatch" data-color="#39FF14" style="background:#39FF14" title="Green" aria-label="Green"></button>
+      <button class="color-swatch" data-color="#FFB800" style="background:#FFB800" title="Amber" aria-label="Amber"></button>
+      <button class="color-swatch" data-color="#00C2CC" style="background:#00C2CC" title="Teal" aria-label="Teal"></button>
+      <button class="color-swatch" data-color="#FF8C42" style="background:#FF8C42" title="Orange" aria-label="Orange"></button>
+      <button class="color-swatch" data-color="#FF6B6B" style="background:#FF6B6B" title="Red" aria-label="Red"></button>
+    </div>
+    <p class="setup-color-label" id="setup-color-label">Choose a color above</p>
+    <button class="btn-cal-primary" id="setup-save-btn" disabled>Save &amp; Continue</button>
+  </div>
+</div>
+
+<main id="cal-root" hidden>
+  <div class="cal-page">
+
+    <!-- Month nav -->
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="cal-prev-btn" aria-label="Previous month">
+        <i class="ph-duotone ph-duotone-caret-left" aria-hidden="true"></i>
+      </button>
+      <h2 class="cal-month-label" id="cal-month-label">June 2026</h2>
+      <button class="cal-nav-btn" id="cal-next-btn" aria-label="Next month">
+        <i class="ph-duotone ph-duotone-caret-right" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Day-of-week headers -->
+    <div class="cal-dow-row" aria-hidden="true">
+      <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span>
+      <span>Thu</span><span>Fri</span><span>Sat</span>
+    </div>
+
+    <!-- Calendar grid -->
+    <div class="cal-grid" id="cal-grid" role="grid" aria-label="Calendar"></div>
+
+    <!-- Device info footer -->
+    <div class="cal-device-row" id="cal-device-row">
+      <span class="cal-device-dot" id="cal-device-dot"></span>
+      <span class="cal-device-name" id="cal-device-name"></span>
+      <button class="cal-device-change" id="cal-device-change-btn">Change</button>
+    </div>
+
+  </div>
+</main>
+
+<!-- Add event modal -->
+<div id="add-event-modal" class="modal-overlay" hidden>
+  <div class="modal-card">
+    <h3 class="modal-title">Add Event</h3>
+    <p class="modal-date-label" id="add-event-date-label"></p>
+    <input type="text" id="add-event-name" class="cal-text-input" placeholder="Event name (required)" maxlength="60" autocomplete="off">
+    <input type="text" id="add-event-time" class="cal-text-input" placeholder="Time (optional, e.g. 3:30 PM)" maxlength="30" autocomplete="off">
+    <textarea id="add-event-desc" class="cal-textarea" placeholder="Description (optional)" rows="3" maxlength="300"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cal-primary" id="add-event-save-btn">Add Event</button>
+      <button class="btn-cal-cancel" id="add-event-cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- View event modal -->
+<div id="view-event-modal" class="modal-overlay" hidden>
+  <div class="modal-card">
+    <div class="view-event-color-bar" id="view-event-color-bar"></div>
+    <h3 class="modal-title" id="view-event-name"></h3>
+    <p class="view-event-meta" id="view-event-meta"></p>
+    <p class="view-event-desc" id="view-event-desc"></p>
+    <div class="modal-actions">
+      <button class="btn-cal-danger" id="view-event-delete-btn" hidden>Delete Event</button>
+      <button class="btn-cal-cancel" id="view-event-close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer" id="site-footer" hidden>
+  <span class="footer-text">Family Hub · 2026</span>
+  <button class="footer-link-btn" id="lock-btn">
+    <i class="ph-duotone ph-duotone-lock-simple" aria-hidden="true"></i> Lock this device
+  </button>
+</footer>
+
+<script type="module" src="js/calendar.js"></script>
+</body>
+</html>
