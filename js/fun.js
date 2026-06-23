@@ -164,8 +164,14 @@ async function loadScore() {
       groupPoints = snap.data().totalPoints || 0;
       bestTimes   = snap.data().bestTimes   || [];
     }
-  } catch { /* offline */ }
-  renderMeter(groupPoints, false);
+  } catch(err) {
+    console.error('Firestore loadScore error:', err);
+  }
+  try {
+    renderMeter(groupPoints, false);
+  } catch(err) {
+    console.error('renderMeter error:', err);
+  }
 }
 
 function renderMeter(pts, animate = true) {
@@ -242,15 +248,18 @@ function initApp() {
 }
 
 async function continueInit() {
-  await loadScore();
+  // Initialize UI immediately — never block on Firestore
   const seed = makeQuestion();
   currentOnFireAnswer = seed.answer;
   onFireQuestion      = seed;
   renderIdle();
-  renderLeaderboard();
   workQueue = shuffle(WORK_QUESTIONS);
   workIdx   = 0;
   loadNextWorkQuestion();
+
+  // Load score + leaderboard after network responds
+  await loadScore();
+  renderLeaderboard();
 }
 
 // ── Game DOM refs ─────────────────────────────────────────────────────────────
