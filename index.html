@@ -27,11 +27,12 @@
     </a>
     <nav class="nav-links" aria-label="Main navigation">
       <a href="index.html" class="nav-link active" aria-current="page">Home</a>
-      <a href="chores.html" class="nav-link">Chores</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
       <a href="memories.html" class="nav-link">Memories</a>
-      <a href="study.html" class="nav-link">Study Zone</a>
       <a href="maxi.html" class="nav-link">Ask mAxI</a>
       <a href="fun.html" class="nav-link">Fun Zone</a>
+      <a href="study.html" class="nav-link">Study Zone</a>
+      <a href="chores.html" class="nav-link">Chores</a>
     </nav>
   </div>
 </header>
@@ -187,6 +188,13 @@
 
   </section>
 
+  <!-- ── Neon charge beam — fires as cards section scrolls into view ──────── -->
+  <div class="portal-transition" id="portal-transition" aria-hidden="true">
+    <span class="portal-node portal-node-l"></span>
+    <div class="portal-beam"></div>
+    <span class="portal-node portal-node-r"></span>
+  </div>
+
   <!-- ── Card grid ──────────────────────────────────────────────────────────── -->
   <section class="cards-section" aria-labelledby="cards-label">
     <p class="section-label" id="cards-label">What's inside</p>
@@ -251,17 +259,51 @@
 </footer>
 
 <script>
-  // Scroll-reveal: only live cards (not coming-soon, which start at 0.5 opacity via CSS)
+  // ── Portal beam: fires once when the divider enters viewport ─────────────
+  var portal = document.getElementById('portal-transition');
+  var portalFired = false;
+  var portalObs = new IntersectionObserver(function(entries) {
+    if (!portalFired && entries[0].isIntersecting) {
+      portalFired = true;
+      portal.classList.add('portal-charged');
+      portalObs.disconnect();
+    }
+  }, { threshold: 0.6 });
+  portalObs.observe(portal);
+
+  // ── Section label fade-in ─────────────────────────────────────────────────
+  var label = document.getElementById('cards-label');
+  var labelObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      label.classList.add('label-revealed');
+      labelObs.disconnect();
+    }
+  }, { threshold: 0.5 });
+  labelObs.observe(label);
+
+  // ── Card power-on: staggered, accent-color glow burst ────────────────────
   var cards = document.querySelectorAll('#cards-grid .card:not(.card-soon)');
-  var observer = new IntersectionObserver(function(entries) {
+  var cardObs = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
       if (e.isIntersecting) {
         e.target.classList.add('revealed');
-        observer.unobserve(e.target);
+        cardObs.unobserve(e.target);
       }
     });
-  }, { threshold: 0.1 });
-  cards.forEach(function(c) { observer.observe(c); });
+  }, { threshold: 0.08 });
+
+  cards.forEach(function(c, i) {
+    c.style.setProperty('--card-delay', (i * 90) + 'ms');
+    cardObs.observe(c);
+  });
+
+  // After animation, switch to normal transition so hover works cleanly
+  document.addEventListener('animationend', function(e) {
+    var t = e.target;
+    if (t.classList.contains('card') && t.classList.contains('revealed')) {
+      t.classList.add('card-done');
+    }
+  }, false);
 </script>
 
 </body>
