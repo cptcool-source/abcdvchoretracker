@@ -1158,13 +1158,135 @@ textarea.bray-input {
   margin-bottom: 6px;
 }
 
-/* Print: menu card header → light grey on paper */
+/* Print: menu card header hidden on page 1 (photos move to page 2) */
 @media print {
-  .menu-card-header {
-    background: #f0f0f0 !important;
-    border-bottom-color: #ddd !important;
-  }
-  .menu-card-header::before { display: none; }
-  .menu-card-drink-icon { color: #aaa !important; filter: none !important; }
+  .menu-card-header { display: none !important; }
   .menu-card-soda-badge { background: #eee !important; border-color: #ccc !important; color: #555 !important; }
+}
+
+/* ── Build Your Own section ───────────────────────────────────────────────── */
+.byo-section {
+  margin: 0 0 28px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 204, 0, 0.18);
+  border-radius: 16px;
+  background: rgba(255, 204, 0, 0.03);
+}
+
+.byo-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bray-gold);
+  margin: 0 0 16px;
+}
+
+.byo-rows { display: flex; flex-direction: column; gap: 12px; }
+
+.byo-row { display: flex; align-items: flex-start; gap: 10px; }
+
+.byo-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  min-width: 68px;
+  padding-top: 6px;
+  flex-shrink: 0;
+}
+
+.byo-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.byo-chip {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+  padding: 5px 13px;
+  white-space: nowrap;
+}
+
+/* ── Signature drinks divider ─────────────────────────────────────────────── */
+.menu-section-label {
+  font-family: 'Syne', sans-serif;
+  font-weight: 900;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  text-align: center;
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menu-section-label::before,
+.menu-section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+/* ── Print photo page (page 2) ────────────────────────────────────────────── */
+.print-photo-page { display: none; }
+
+@media print {
+  /* Page 1: BYO + text-only drink cards */
+  .byo-section   { border-color: #ddd !important; background: #f9f9f9 !important; }
+  .byo-title     { color: #333 !important; }
+  .byo-chip      { background: #f0f0f0 !important; border-color: #ddd !important; color: #333 !important; }
+  .byo-label     { color: #666 !important; }
+  .menu-section-label { color: #888 !important; }
+  .menu-section-label::before,
+  .menu-section-label::after { background: #ddd !important; }
+
+  /* Page 2: photo gallery */
+  .print-photo-page {
+    display: block;
+    break-before: page;
+    page-break-before: always;
+    padding: 24px 0 0;
+  }
+
+  .print-photo-heading {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    color: #111;
+    text-align: center;
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .print-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .print-photo-card { text-align: center; }
+
+  .print-photo-card img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .print-photo-name {
+    font-family: 'Satoshi', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+    display: block;
+  }
 }

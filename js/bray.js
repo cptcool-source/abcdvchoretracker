@@ -323,6 +323,21 @@ function renderMenuGrid() {
         <span class="menu-card-price">$5.00</span>
       </div>
     </div>`).join('');
+
+  // Print page 2 — photo gallery (hidden on screen via CSS, shown on print)
+  const photoPage = document.getElementById('print-photo-page');
+  if (photoPage) {
+    photoPage.innerHTML =
+      `<p class="print-photo-heading">BB's Dirty Soda Shack</p>` +
+      `<div class="print-photo-grid">` +
+      MENU_ITEMS.map(item =>
+        `<div class="print-photo-card">
+          <img src="${item.img}" alt="${item.name}">
+          <span class="print-photo-name">${item.name}</span>
+        </div>`
+      ).join('') +
+      `</div>`;
+  }
 }
 
 openMenuBtn.addEventListener('click', () => {
