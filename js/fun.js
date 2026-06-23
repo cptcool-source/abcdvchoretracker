@@ -357,7 +357,7 @@ function renderIdle() {
 function renderLeaderboard() {
   if (gameMode !== 'time-trial') { leaderboard.hidden = true; return; }
   leaderboard.hidden = false;
-  const sorted = [...bestTimes].sort((a, b) => a.time - b.time).slice(0, 3);
+  const sorted = [...bestTimes].filter(r => r && typeof r.time === 'number').sort((a, b) => a.time - b.time).slice(0, 3);
   leaderboard.innerHTML =
     `<div class="leaderboard-title">🏆 Top Times</div>` +
     (sorted.length === 0
