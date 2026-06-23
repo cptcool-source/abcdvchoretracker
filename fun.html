@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fun Zone Arcade — Family Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/fun.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <i class="ph-duotone ph-duotone-circles-three-plus nav-logo-icon" aria-hidden="true"></i>
+      <span class="nav-logo-text">Family Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="chores.html" class="nav-link">Chores</a>
+      <a href="memories.html" class="nav-link">Memories</a>
+      <a href="study.html" class="nav-link">Study Zone</a>
+      <a href="maxi.html" class="nav-link">Ask mAxI</a>
+      <a href="fun.html" class="nav-link active" aria-current="page">Fun Zone</a>
+    </nav>
+  </div>
+</header>
+
+<div id="auth-loading" class="loading-state">Loading Fun Zone</div>
+
+<div id="passcode-gate" class="gate-overlay" hidden>
+  <div class="gate-card surface">
+    <i class="ph-duotone ph-duotone-game-controller gate-emoji" aria-hidden="true"></i>
+    <h2 class="gate-title">Fun Zone Arcade</h2>
+    <p class="gate-sub">Enter the family passcode to play</p>
+    <div class="gate-inputs" id="gate-inputs">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+    </div>
+    <p class="gate-error" id="gate-error" hidden>Wrong code — try again</p>
+    <button class="btn btn-primary" id="gate-submit">Unlock</button>
+  </div>
+</div>
+
+<main id="fun-root" hidden>
+
+  <!-- Stars background canvas -->
+  <canvas id="stars-canvas" aria-hidden="true"></canvas>
+
+  <!-- All page content sits above the canvas -->
+  <div class="page-content">
+
+    <!-- ── Hero ── -->
+    <section class="fun-hero">
+      <div class="fun-hero-badge">ARCADE</div>
+      <h1 class="fun-hero-title">Welcome to the<br><span class="fun-hero-accent">Fun Zone Arcade</span></h1>
+      <p class="fun-hero-sub">win real prizes</p>
+    </section>
+
+    <!-- ── Prize Meter ── -->
+    <section class="prize-section">
+      <div class="prize-header">
+        <span class="prize-icon">🏆</span>
+        <span class="prize-label">Group Prize Goal</span>
+        <span class="prize-name">$10 ROBUX</span>
+      </div>
+      <div class="prize-track">
+        <div class="prize-fill" id="prize-fill"></div>
+        <div class="prize-particles" id="prize-particles"></div>
+      </div>
+      <div class="prize-stats">
+        <span><span id="prize-pts">0</span> / 1000 pts</span>
+        <span id="prize-pct">0%</span>
+      </div>
+    </section>
+
+    <!-- ── Game Section ── -->
+    <section class="game-section">
+      <h2 class="section-heading">Times Table Challenge</h2>
+
+      <div class="mode-toggle" role="group" aria-label="Game mode">
+        <button class="mode-btn active" data-mode="time-trial" id="btn-time-trial">⏱ Time Trial</button>
+        <button class="mode-btn" data-mode="on-fire" id="btn-on-fire">🔥 On Fire</button>
+      </div>
+
+      <div class="game-card" id="game-card">
+
+        <!-- IDLE STATE -->
+        <div id="state-idle" class="game-state">
+          <div class="idle-info" id="idle-info"></div>
+          <button class="btn-arcade" id="start-btn">START</button>
+          <div id="leaderboard" class="leaderboard" hidden></div>
+        </div>
+
+        <!-- PLAYING STATE -->
+        <div id="state-playing" class="game-state" hidden>
+          <input type="text" id="game-hidden-input" inputmode="none" readonly
+            style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px">
+
+          <!-- Timer bar (time trial only) -->
+          <div id="timer-wrap" class="timer-wrap" hidden>
+            <div class="timer-track"><div class="timer-bar" id="timer-bar"></div></div>
+            <div class="timer-text" id="timer-text">20.0</div>
+          </div>
+
+          <!-- Streak display (on fire only) -->
+          <div id="streak-wrap" class="streak-wrap" hidden>
+            <span class="streak-label">STREAK</span>
+            <span class="streak-count" id="streak-count">0</span>
+            <span class="streak-fire">🔥</span>
+          </div>
+
+          <!-- Question progress (time trial) -->
+          <div id="q-progress" class="q-progress" hidden>
+            Q <span id="q-current">1</span> / 10
+          </div>
+
+          <!-- Question display -->
+          <div class="question-display">
+            <span class="q-num" id="q-a">?</span>
+            <span class="q-op">×</span>
+            <span class="q-num" id="q-b">?</span>
+            <span class="q-eq">=</span>
+            <span class="q-answer-box" id="q-answer-box">_</span>
+          </div>
+
+          <!-- Numpad -->
+          <div class="numpad" id="numpad">
+            <button class="num-btn" data-key="7">7</button>
+            <button class="num-btn" data-key="8">8</button>
+            <button class="num-btn" data-key="9">9</button>
+            <button class="num-btn" data-key="4">4</button>
+            <button class="num-btn" data-key="5">5</button>
+            <button class="num-btn" data-key="6">6</button>
+            <button class="num-btn" data-key="1">1</button>
+            <button class="num-btn" data-key="2">2</button>
+            <button class="num-btn" data-key="3">3</button>
+            <button class="num-btn num-back" data-key="back">⌫</button>
+            <button class="num-btn num-wide" data-key="0">0</button>
+            <button class="num-btn num-submit" data-key="submit">✓</button>
+          </div>
+        </div>
+
+        <!-- FAILED STATE -->
+        <div id="state-failed" class="game-state" hidden>
+          <div class="fail-content">
+            <div class="fail-icon">💀</div>
+            <div class="fail-title">GAME OVER</div>
+            <div class="fail-sub" id="fail-sub"></div>
+            <div class="fail-countdown" id="fail-countdown"></div>
+          </div>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div id="state-success" class="game-state" hidden>
+          <div class="success-content">
+            <div class="success-icon">⚡</div>
+            <div class="success-title">COMPLETE!</div>
+            <div class="success-time" id="success-time"></div>
+            <div class="success-record" id="success-record" hidden>🏆 NEW BEST TIME!</div>
+            <div class="success-pts">+15 pts added to prize!</div>
+            <button class="btn-arcade" id="play-again-btn">PLAY AGAIN</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Coming Soon ── -->
+    <section class="coming-soon-section">
+      <div class="coming-soon-card">
+        <span class="coming-soon-dots">• • •</span>
+        <span>more coming soon..</span>
+      </div>
+    </section>
+
+    <!-- ── Just Work Section ── -->
+    <section class="just-work-section" id="just-work">
+      <div class="just-work-header">
+        <h2 class="section-heading">just work..</h2>
+        <p class="just-work-sub">6th grade math · 5 pts per correct answer</p>
+      </div>
+
+      <div class="work-card" id="work-card">
+        <!-- ANSWERING STATE -->
+        <div id="work-answering">
+          <div class="work-meta">
+            <span class="work-topic-badge" id="work-topic-badge">Topic</span>
+            <span class="work-session-score">Session: <strong id="work-session-correct">0</strong> correct</span>
+          </div>
+          <p class="work-question" id="work-question">Loading…</p>
+          <div class="work-input-row">
+            <input type="text" id="work-input" class="work-input"
+              placeholder="Your answer…" autocomplete="off" autocorrect="off"
+              spellcheck="false" inputmode="decimal">
+            <button class="btn-work-check" id="work-submit-btn">Check →</button>
+          </div>
+          <p class="work-hint" id="work-hint"></p>
+        </div>
+
+        <!-- RESULT STATE -->
+        <div id="work-result" hidden>
+          <div class="work-result-banner" id="work-result-banner">
+            <span class="work-result-icon" id="work-result-icon"></span>
+            <span class="work-result-msg" id="work-result-msg"></span>
+          </div>
+          <div class="work-explanation" id="work-explanation" hidden></div>
+          <div class="work-result-actions" id="work-result-actions"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Device Name Modal ── -->
+    <div id="device-modal" class="device-modal" hidden>
+      <div class="device-modal-card">
+        <div class="device-modal-icon">🕹️</div>
+        <h3 class="device-modal-title">Name this device</h3>
+        <p class="device-modal-sub">Used on arcade leaderboards — for arcade displays</p>
+        <input type="text" id="device-name-input" class="device-name-input"
+          placeholder="e.g. Mom's Phone" maxlength="20" autocomplete="off">
+        <button class="btn-arcade" id="device-name-save">Save →</button>
+      </div>
+    </div>
+
+  </div><!-- /page-content -->
+
+</main>
+
+<footer class="site-footer" id="site-footer" hidden>
+  <span class="footer-text">Family Hub · 2026</span>
+  <button class="footer-link-btn" id="lock-btn">
+    <i class="ph-duotone ph-duotone-lock-simple" aria-hidden="true"></i> Lock this device
+  </button>
+</footer>
+
+<script type="module" src="js/fun.js"></script>
+</body>
+</html>
