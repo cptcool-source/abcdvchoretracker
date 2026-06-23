@@ -720,7 +720,10 @@
   height: 52px;
   border-radius: 50%;
   border: none;
-  font-size: 22px;
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1;
+  font-family: 'Satoshi', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
