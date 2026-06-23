@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>BB's Dirty Soda Shack — Family Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/bray.css">
+</head>
+<body>
+
+<!-- ── Site header (not linked in main nav — access via index.html card) ── -->
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <i class="ph-duotone ph-duotone-circles-three-plus nav-logo-icon" aria-hidden="true"></i>
+      <span class="nav-logo-text">Family Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="calendar.html" class="nav-link">Calendar</a>
+      <a href="memories.html" class="nav-link">Memories</a>
+      <a href="maxi.html" class="nav-link">Ask mAxI</a>
+      <a href="fun.html" class="nav-link">Fun Zone</a>
+      <a href="study.html" class="nav-link">Study Zone</a>
+      <a href="chores.html" class="nav-link">Chores</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Auth loading -->
+<div id="auth-loading" class="loading-state">Loading Business Dashboard…</div>
+
+<!-- Passcode gate (reuses global gate styles) -->
+<div id="passcode-gate" class="gate-overlay" hidden>
+  <div class="gate-card surface">
+    <i class="ph-duotone ph-duotone-storefront gate-emoji" aria-hidden="true"></i>
+    <h2 class="gate-title">BB's Soda Shack</h2>
+    <p class="gate-sub">Enter the family passcode to continue</p>
+    <div class="gate-inputs" id="gate-inputs">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" data-idx="0" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" data-idx="1" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" data-idx="2" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" data-idx="3" autocomplete="off">
+    </div>
+    <p class="gate-error" id="gate-error" hidden>Wrong code — try again</p>
+    <button class="btn btn-primary" id="gate-submit">Unlock</button>
+  </div>
+</div>
+
+<!-- ── Main app (hidden until authenticated) ── -->
+<main id="bray-root" hidden>
+
+  <!-- Hero -->
+  <div class="bray-hero">
+    <span class="bray-badge">Business Dashboard</span>
+    <h1 class="bray-title">BB's Dirty<br><span>Soda Shack</span></h1>
+    <div class="bray-underline" aria-hidden="true"></div>
+    <p class="bray-sub">Plan your shopping run, serve the menu, track every dollar.</p>
+  </div>
+
+  <div class="bray-sections">
+
+    <!-- ── Widget A: Shopping Planner ── -->
+    <div class="bray-widget planner-has-drinks" id="widget-planner">
+      <div class="bray-widget-head">
+        <i class="ph-duotone ph-duotone-shopping-cart bray-widget-icon" aria-hidden="true"></i>
+        <div class="bray-widget-meta">
+          <h2>Shopping Planner</h2>
+          <p>Add packs to your cart. See your total cost, how many drinks you'll have, and your profit if you sell out.</p>
+        </div>
+      </div>
+
+      <!-- Ingredient rows (rendered by JS) -->
+      <div class="ingredient-list" id="ingredient-list"></div>
+
+      <!-- Live summary bar -->
+      <div class="planner-summary">
+        <div class="planner-stat">
+          <span class="planner-stat-value pink" id="stat-cost">$0.00</span>
+          <span class="planner-stat-label">Total Cost</span>
+        </div>
+        <div class="planner-stat">
+          <span class="planner-stat-value" id="stat-total-drinks">0</span>
+          <span class="planner-stat-label">Drinks</span>
+        </div>
+        <div class="planner-stat">
+          <span class="planner-stat-value gold" id="stat-profit">$0.00</span>
+          <span class="planner-stat-label">Profit</span>
+        </div>
+      </div>
+
+      <!-- Per-drink breakdown -->
+      <div class="drinks-section">
+        <p class="drinks-section-label">Drinks you can make</p>
+        <div id="drinks-breakdown"></div>
+      </div>
+    </div>
+
+    <!-- ── Widget B: Menu ── -->
+    <div class="bray-widget" id="widget-menu">
+      <div class="bray-widget-head">
+        <i class="ph-duotone ph-duotone-receipt bray-widget-icon" aria-hidden="true"></i>
+        <div class="bray-widget-meta">
+          <h2>The Menu</h2>
+          <p>Open the full menu to show customers or print for your stand. Print-ready up to standard paper size.</p>
+        </div>
+      </div>
+      <div class="menu-open-area">
+        <button class="btn-bray" id="open-menu-btn">
+          <i class="ph-duotone ph-duotone-eye" aria-hidden="true"></i>
+          View Full Menu
+        </button>
+        <span class="menu-hint">Tap to open · Print-ready</span>
+      </div>
+    </div>
+
+    <!-- ── Widget C: Sales Tracker ── -->
+    <div class="bray-widget" id="widget-tracker">
+      <div class="bray-widget-head">
+        <i class="ph-duotone ph-duotone-chart-line-up bray-widget-icon" aria-hidden="true"></i>
+        <div class="bray-widget-meta">
+          <h2>Sales Tracker</h2>
+          <p>Log every sale and purchase. Watch your gross, expenses, and real profit grow.</p>
+        </div>
+      </div>
+
+      <!-- Summary stats (2×2 grid) -->
+      <div class="tracker-stats">
+        <div class="tracker-stat">
+          <span class="tracker-stat-value gold" id="stat-gross">$0.00</span>
+          <span class="tracker-stat-label">Gross Revenue</span>
+        </div>
+        <div class="tracker-stat">
+          <span class="tracker-stat-value pink" id="stat-expenses">$0.00</span>
+          <span class="tracker-stat-label">Expenses</span>
+        </div>
+        <div class="tracker-stat">
+          <span class="tracker-stat-value teal" id="stat-net">$0.00</span>
+          <span class="tracker-stat-label">Net Profit</span>
+        </div>
+        <div class="tracker-stat">
+          <span class="tracker-stat-value" id="stat-sodas">0</span>
+          <span class="tracker-stat-label">Sodas Sold</span>
+        </div>
+      </div>
+
+      <!-- Transaction log -->
+      <div class="tracker-log">
+        <p class="tracker-log-label">Transaction History</p>
+        <div id="tracker-entries"></div>
+        <div class="tracker-empty" id="tracker-empty" hidden>
+          <i class="ph-duotone ph-duotone-chart-bar" aria-hidden="true"></i>
+          No transactions yet.<br>Hit <strong style="color:var(--bray-gold)">+</strong> to log your first sale!
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FABs (fixed, bottom-right) -->
+  <div class="tracker-fabs" id="tracker-fabs">
+    <button class="tracker-fab tracker-fab-minus" id="fab-expense" aria-label="Log a purchase">
+      <i class="ph-duotone ph-duotone-minus" aria-hidden="true"></i>
+    </button>
+    <button class="tracker-fab tracker-fab-plus" id="fab-sale" aria-label="Log a sale day">
+      <i class="ph-duotone ph-duotone-plus" aria-hidden="true"></i>
+    </button>
+  </div>
+
+</main><!-- /#bray-root -->
+
+<!-- ── Menu overlay ── -->
+<div id="menu-overlay" class="menu-overlay" hidden>
+  <!-- Sticky controls bar -->
+  <div class="menu-overlay-controls">
+    <span class="menu-overlay-title">BB's Dirty Soda Shack</span>
+    <button class="btn-menu-ctrl btn-menu-print" id="print-menu-btn">
+      <i class="ph-duotone ph-duotone-printer" aria-hidden="true"></i>Print
+    </button>
+    <button class="btn-menu-ctrl btn-menu-close" id="close-menu-btn">
+      <i class="ph-duotone ph-duotone-x" aria-hidden="true"></i>Close
+    </button>
+  </div>
+
+  <!-- Printable content -->
+  <div class="printable-menu">
+    <div class="menu-brand">
+      <div class="menu-brand-scanlines" aria-hidden="true"></div>
+      <h2 class="menu-brand-name">BB's Dirty<br>Soda Shack</h2>
+      <p class="menu-brand-tagline">Handcrafted dirty sodas · Made fresh · Made to order</p>
+      <span class="menu-price-badge">All drinks · $5.00</span>
+    </div>
+    <div class="menu-grid" id="menu-grid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ── Sale modal ── -->
+<div class="bray-modal-bg" id="sale-modal-bg" hidden>
+  <div class="bray-modal" role="dialog" aria-modal="true" aria-labelledby="sale-modal-title">
+    <div class="bray-modal-handle" aria-hidden="true"></div>
+    <h3 class="bray-modal-title" id="sale-modal-title">Log a Sale Day</h3>
+
+    <div class="bray-field">
+      <label for="sale-date">Date</label>
+      <input type="date" id="sale-date" class="bray-input">
+    </div>
+    <div class="bray-field">
+      <label for="sale-amount">Dollars Made</label>
+      <input type="number" id="sale-amount" class="bray-input" inputmode="decimal" placeholder="0.00" min="0" step="0.01">
+    </div>
+    <div class="bray-field">
+      <label for="sale-sodas">Sodas Sold</label>
+      <input type="number" id="sale-sodas" class="bray-input" inputmode="numeric" placeholder="0" min="0" step="1">
+    </div>
+    <div class="bray-field">
+      <label for="sale-notes">Notes</label>
+      <textarea id="sale-notes" class="bray-input" placeholder="e.g. Cherry Bomb sold out fast today"></textarea>
+      <p class="bray-field-hint">Note any drinks that sold way more than others — helps you plan next time.</p>
+    </div>
+
+    <div class="bray-modal-actions">
+      <button class="btn-modal-cancel" id="sale-cancel">Cancel</button>
+      <button class="btn-modal-save" id="sale-save">Save Sale</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Expense modal ── -->
+<div class="bray-modal-bg" id="expense-modal-bg" hidden>
+  <div class="bray-modal" role="dialog" aria-modal="true" aria-labelledby="exp-modal-title">
+    <div class="bray-modal-handle" aria-hidden="true"></div>
+    <h3 class="bray-modal-title" id="exp-modal-title">Log a Purchase</h3>
+
+    <div class="bray-field">
+      <label for="exp-date">Date</label>
+      <input type="date" id="exp-date" class="bray-input">
+    </div>
+    <div class="bray-field">
+      <label for="exp-amount">Amount Spent</label>
+      <input type="number" id="exp-amount" class="bray-input" inputmode="decimal" placeholder="0.00" min="0" step="0.01">
+    </div>
+
+    <div class="bray-modal-actions">
+      <button class="btn-modal-cancel" id="exp-cancel">Cancel</button>
+      <button class="btn-modal-save expense" id="exp-save">Log Expense</button>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer" id="site-footer" hidden>
+  <span class="footer-text">BB's Dirty Soda Shack · Business Dashboard</span>
+</footer>
+
+<script type="module" src="js/bray.js"></script>
+<script src="js/nav.js"></script>
+</body>
+</html>
