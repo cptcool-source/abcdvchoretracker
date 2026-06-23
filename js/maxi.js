@@ -196,6 +196,7 @@ async function handleSend() {
     maxiStatus.textContent = 'Ready to help';
     setTimeout(() => setSprite('idle'), 1800);
   } catch (err) {
+    console.error('mAxI chat error:', err);
     typing.remove();
     appendBubble('maxi', 'Woof! Something went wrong — try asking again?');
     setSprite('idle');
@@ -221,10 +222,17 @@ async function fetchGemini(userText) {
     })
   });
 
-  if (!res.ok) throw new Error(`Gemini ${res.status}`);
+  if (!res.ok) {
+    const errBody = await res.json().catch(() => ({}));
+    console.error('Gemini API error:', res.status, errBody);
+    throw new Error(`Gemini ${res.status}`);
+  }
   const data = await res.json();
   const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!reply) throw new Error('empty');
+  if (!reply) {
+    console.error('Gemini empty response:', data);
+    throw new Error('empty');
+  }
 
   history.push({ role: 'model', parts: [{ text: reply }] });
   return reply;
