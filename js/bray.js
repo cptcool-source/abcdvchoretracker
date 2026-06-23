@@ -28,13 +28,13 @@ const INGREDIENTS = [
 
 // ── Menu (7 drinks, $5 each, 1 can + 1oz creamer per drink) ───────────────
 const MENU_ITEMS = [
-  { id: 'm1', name: 'The OG',              soda: 'dp',     accent: '#E0304A', sodaLabel: 'Dr. Pepper', flavors: 'Lime · Coconut · Creamer' },
-  { id: 'm2', name: 'Strawberry Kiss',     soda: 'dp',     accent: '#FF6B8A', sodaLabel: 'Dr. Pepper', flavors: 'Strawberry · Vanilla · Creamer' },
-  { id: 'm3', name: 'Coconut Paradise',    soda: 'coke',   accent: '#00C2CC', sodaLabel: 'Coke',       flavors: 'Strawberry · Coconut · Creamer' },
-  { id: 'm4', name: 'Cola Dream',          soda: 'coke',   accent: '#4DA6FF', sodaLabel: 'Coke',       flavors: 'Vanilla · Coconut · Creamer' },
-  { id: 'm5', name: 'Shark Attack',        soda: 'sprite', accent: '#39FF14', sodaLabel: 'Sprite',     flavors: 'Blue Razz · Strawberry · Creamer · Gummies' },
-  { id: 'm6', name: 'Strawberry Sunrise',  soda: 'sprite', accent: '#FF8C42', sodaLabel: 'Sprite',     flavors: 'Strawberry · Coconut · Creamer' },
-  { id: 'm7', name: 'Tropical Blast',      soda: 'sprite', accent: '#A020F0', sodaLabel: 'Sprite',     flavors: 'Blue Razz · Lime · Creamer' },
+  { id: 'm1', name: 'The OG',              soda: 'dp',     accent: '#E0304A', sodaLabel: 'Dr. Pepper', flavors: 'Lime · Coconut · Creamer',               img: 'images/theOG.png' },
+  { id: 'm2', name: 'Strawberry Kiss',     soda: 'dp',     accent: '#FF6B8A', sodaLabel: 'Dr. Pepper', flavors: 'Strawberry · Vanilla · Creamer',          img: 'images/strawberry-kiss.png' },
+  { id: 'm3', name: 'Coconut Paradise',    soda: 'coke',   accent: '#00C2CC', sodaLabel: 'Coke',       flavors: 'Strawberry · Coconut · Creamer',          img: 'images/coconut-paradise.png' },
+  { id: 'm4', name: 'Cola Dream',          soda: 'coke',   accent: '#4DA6FF', sodaLabel: 'Coke',       flavors: 'Vanilla · Coconut · Creamer',             img: 'images/cola-dream.png' },
+  { id: 'm5', name: 'Shark Attack',        soda: 'sprite', accent: '#39FF14', sodaLabel: 'Sprite',     flavors: 'Blue Razz · Strawberry · Creamer · Gummies', img: 'images/shark-attack.png' },
+  { id: 'm6', name: 'Strawberry Sunrise',  soda: 'sprite', accent: '#FF8C42', sodaLabel: 'Sprite',     flavors: 'Strawberry · Coconut · Creamer',          img: 'images/strawberry-sunrise.png' },
+  { id: 'm7', name: 'Tropical Blast',      soda: 'sprite', accent: '#A020F0', sodaLabel: 'Sprite',     flavors: 'Blue Razz · Lime · Creamer',              img: 'images/tropical-blast.png' },
 ];
 
 // ── Soda groups (for the breakdown display) ────────────────────────────────
@@ -314,7 +314,7 @@ function renderMenuGrid() {
   menuGrid.innerHTML = MENU_ITEMS.map(item => `
     <div class="menu-card" style="--drink-accent:${item.accent}">
       <div class="menu-card-header">
-        <i class="ph-duotone ph-duotone-drop menu-card-drink-icon" aria-hidden="true"></i>
+        <img src="${item.img}" alt="${item.name}" class="menu-card-img-real" loading="lazy">
       </div>
       <div class="menu-card-body">
         <span class="menu-card-soda-badge">${item.sodaLabel}</span>
