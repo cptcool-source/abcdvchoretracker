@@ -211,7 +211,7 @@ async function handleSend() {
 async function fetchGemini(userText) {
   history.push({ role: 'user', parts: [{ text: userText }] });
 
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'x-goog-api-key': geminiKey },
