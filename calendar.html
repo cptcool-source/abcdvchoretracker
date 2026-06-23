@@ -105,6 +105,22 @@
   </div>
 </main>
 
+<!-- Day view sheet — tap any day to open -->
+<div id="day-view-modal" class="modal-overlay modal-overlay--sheet" hidden>
+  <div class="modal-card">
+    <div class="day-view-header">
+      <h3 class="day-view-title" id="day-view-title"></h3>
+      <button class="day-view-close-btn" id="day-view-close-btn" aria-label="Close">
+        <i class="ph-duotone ph-duotone-x" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="day-view-events" id="day-view-events"></div>
+    <button class="btn-cal-primary" id="day-view-add-btn">
+      <i class="ph-duotone ph-duotone-plus" aria-hidden="true"></i> Add Event
+    </button>
+  </div>
+</div>
+
 <!-- Add event modal -->
 <div id="add-event-modal" class="modal-overlay" hidden>
   <div class="modal-card">

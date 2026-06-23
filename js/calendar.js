@@ -66,6 +66,12 @@ const viewEventDesc    = document.getElementById('view-event-desc');
 const viewEventDeleteBtn= document.getElementById('view-event-delete-btn');
 const viewEventCloseBtn = document.getElementById('view-event-close-btn');
 
+const dayViewModal     = document.getElementById('day-view-modal');
+const dayViewTitle     = document.getElementById('day-view-title');
+const dayViewEvents    = document.getElementById('day-view-events');
+const dayViewAddBtn    = document.getElementById('day-view-add-btn');
+const dayViewCloseBtn  = document.getElementById('day-view-close-btn');
+
 // ── Auth gate ─────────────────────────────────────────────────────────────
 onAuthStateChanged(auth, user => {
   authLoading.hidden = true;
@@ -250,36 +256,90 @@ function renderGrid() {
     cell.appendChild(numEl);
 
     if (isCurrentMonth) {
-      // Add button
-      const addBtn = document.createElement('button');
-      addBtn.className = 'cal-day-add';
-      addBtn.setAttribute('aria-label', `Add event on ${dateStr}`);
-      addBtn.innerHTML = '+';
-      addBtn.addEventListener('click', e => { e.stopPropagation(); openAddEvent(day, dateStr); });
-      cell.appendChild(addBtn);
+      cell.setAttribute('role', 'button');
+      cell.setAttribute('aria-label', `Open ${dateStr}`);
+      cell.addEventListener('click', () => openDayView(day, dateStr));
 
-      // Event chips
+      // Colored dots — visual indicators only, tap cell to see event list
       const dayEvents = currentEvents.filter(ev => ev.day === day);
-      const maxChips = 3;
-      dayEvents.slice(0, maxChips).forEach(ev => {
-        const chip = document.createElement('span');
-        chip.className = 'cal-event-chip';
-        chip.style.background = ev.color || '#4DA6FF';
-        chip.textContent = ev.name;
-        chip.addEventListener('click', e => { e.stopPropagation(); openViewEvent(ev); });
-        cell.appendChild(chip);
-      });
-      if (dayEvents.length > maxChips) {
-        const more = document.createElement('span');
-        more.className = 'cal-more-label';
-        more.textContent = `+${dayEvents.length - maxChips} more`;
-        more.addEventListener('click', e => { e.stopPropagation(); openViewEvent(dayEvents[maxChips]); });
-        cell.appendChild(more);
+      if (dayEvents.length > 0) {
+        const dotsEl = document.createElement('div');
+        dotsEl.className = 'cal-day-dots';
+        const maxDots = 5;
+        dayEvents.slice(0, maxDots).forEach(ev => {
+          const dot = document.createElement('span');
+          dot.className = 'cal-dot';
+          dot.style.background = ev.color || '#4DA6FF';
+          dotsEl.appendChild(dot);
+        });
+        if (dayEvents.length > maxDots) {
+          const more = document.createElement('span');
+          more.className = 'cal-dot-more';
+          more.textContent = `+${dayEvents.length - maxDots}`;
+          dotsEl.appendChild(more);
+        }
+        cell.appendChild(dotsEl);
       }
     }
 
     calGrid.appendChild(cell);
   }
+}
+
+// ── Day view sheet (mobile-first: tap day → sheet → events + add) ─────────
+let dayViewDay     = null;
+let dayViewDateStr = null;
+
+function openDayView(day, dateStr) {
+  dayViewDay     = day;
+  dayViewDateStr = dateStr;
+
+  const d = new Date(viewYear, viewMonth, day);
+  dayViewTitle.textContent = d.toLocaleDateString('en-US', {
+    weekday: 'long', month: 'long', day: 'numeric'
+  });
+
+  const dayEvents = currentEvents.filter(ev => ev.day === day);
+  dayViewEvents.innerHTML = '';
+
+  if (dayEvents.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'day-view-empty';
+    empty.textContent = 'No events yet';
+    dayViewEvents.appendChild(empty);
+  } else {
+    dayEvents.forEach(ev => {
+      const item = document.createElement('button');
+      item.className = 'day-view-event-item';
+      item.innerHTML =
+        `<span class="day-view-dot" style="background:${escHtml(ev.color || '#4DA6FF')}"></span>` +
+        `<span class="day-view-event-info">` +
+          `<span class="day-view-event-name">${escHtml(ev.name)}</span>` +
+          (ev.time ? `<span class="day-view-event-time">${escHtml(ev.time)}</span>` : '') +
+        `</span>` +
+        `<i class="ph-duotone ph-duotone-caret-right day-view-arrow" aria-hidden="true"></i>`;
+      item.addEventListener('click', () => {
+        dayViewModal.hidden = true;
+        openViewEvent(ev);
+      });
+      dayViewEvents.appendChild(item);
+    });
+  }
+
+  dayViewModal.hidden = false;
+}
+
+dayViewCloseBtn.addEventListener('click', () => { dayViewModal.hidden = true; });
+dayViewModal.addEventListener('click', e => { if (e.target === dayViewModal) dayViewModal.hidden = true; });
+dayViewAddBtn.addEventListener('click', () => {
+  dayViewModal.hidden = true;
+  openAddEvent(dayViewDay, dayViewDateStr);
+});
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // ── Add event modal ───────────────────────────────────────────────────────
