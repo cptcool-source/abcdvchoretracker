@@ -29,3 +29,8 @@ export const PASSWORD_PREFIX = "famhub-";
 //        3) Settings → Upload → Add upload preset → Signing Mode: Unsigned → copy preset name
 export const CLOUDINARY_CLOUD_NAME    = "davihhyyt";
 export const CLOUDINARY_UPLOAD_PRESET = "ldhu9tbp";
+
+// mAxI chatbot — free Gemini API key from Google AI Studio (aistudio.google.com).
+// Free tier: 1,500 requests/day, no credit card needed.
+// Get a key: aistudio.google.com → Get API key → Create API key in new project.
+export const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";

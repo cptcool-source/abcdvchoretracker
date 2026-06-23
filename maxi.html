@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ask mAxI — Family Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/maxi.css">
+</head>
+<body>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <i class="ph-duotone ph-duotone-circles-three-plus nav-logo-icon" aria-hidden="true"></i>
+      <span class="nav-logo-text">Family Hub</span>
+    </a>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="chores.html" class="nav-link">Chores</a>
+      <a href="memories.html" class="nav-link">Memories</a>
+      <a href="study.html" class="nav-link">Study Zone</a>
+      <a href="maxi.html" class="nav-link active" aria-current="page">Ask mAxI</a>
+    </nav>
+  </div>
+</header>
+
+<div id="auth-loading" class="loading-state">Loading mAxI</div>
+
+<div id="passcode-gate" class="gate-overlay" hidden>
+  <div class="gate-card surface">
+    <i class="ph-duotone ph-duotone-paw-print gate-emoji" aria-hidden="true"></i>
+    <h2 class="gate-title">Ask mAxI</h2>
+    <p class="gate-sub">Enter the family passcode to unlock</p>
+    <div class="gate-inputs" id="gate-inputs">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+      <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off">
+    </div>
+    <p class="gate-error" id="gate-error" hidden>Wrong code — try again</p>
+    <button class="btn btn-primary" id="gate-submit">Unlock</button>
+  </div>
+</div>
+
+<!-- Full-height chat shell -->
+<main id="maxi-root" class="maxi-root" hidden>
+
+  <!-- ── Welcome state (shown until first message) ── -->
+  <div class="maxi-welcome" id="maxi-welcome">
+
+    <!--
+      mAxI the golden doodle — pixel art sprite (20×24 grid, viewBox="0 0 20 24").
+      image-rendering: pixelated keeps the blocky look when scaled up.
+      .maxi-tail is animated via CSS; the whole sprite transitions between
+      data-state="idle | thinking | happy" via JS class swaps.
+    -->
+    <svg id="maxi-sprite-welcome" class="maxi-sprite-welcome"
+         viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg"
+         role="img" aria-label="mAxI the golden doodle">
+
+      <!-- EARS (rendered before head so head overlaps the inner edge) -->
+      <rect x="1" y="2" width="2" height="1" fill="#C8860A"/>
+      <rect x="0" y="3" width="3" height="6" fill="#C8860A"/>
+      <rect x="0" y="8" width="3" height="1" fill="#8B5E03"/>
+      <rect x="17" y="2" width="2" height="1" fill="#C8860A"/>
+      <rect x="17" y="3" width="3" height="6" fill="#C8860A"/>
+      <rect x="17" y="8" width="3" height="1" fill="#8B5E03"/>
+
+      <!-- HEAD base fill (x=3–16, y=0–11) -->
+      <rect x="3" y="0" width="14" height="12" fill="#E8B04B"/>
+      <!-- Darker side edges create a clear head-ear seam -->
+      <rect x="3" y="0" width="1"  height="12" fill="#C8860A"/>
+      <rect x="16" y="0" width="1" height="12" fill="#C8860A"/>
+
+      <!-- Fluffy top highlights (dithered curly-fur effect) -->
+      <rect x="4"  y="0" width="2" height="1" fill="#C8860A"/>
+      <rect x="7"  y="0" width="3" height="1" fill="#FFD180"/>
+      <rect x="11" y="0" width="3" height="1" fill="#FFD180"/>
+      <rect x="14" y="0" width="2" height="1" fill="#C8860A"/>
+
+      <!-- Forehead highlight specks -->
+      <rect x="6"  y="2" width="2" height="1" fill="#FFD180"/>
+      <rect x="13" y="2" width="2" height="1" fill="#FFD180"/>
+
+      <!-- Eyebrow-fluff (lighter row above each eye) -->
+      <rect x="5"  y="4" width="2" height="1" fill="#FFD180"/>
+      <rect x="13" y="4" width="2" height="1" fill="#FFD180"/>
+
+      <!-- LEFT EYE  (2×2 near-black, top-left pixel slightly lighter = highlight) -->
+      <rect x="5" y="5" width="2" height="2" fill="#1A0A00"/>
+      <rect x="5" y="5" width="1" height="1" fill="#403020"/>
+      <!-- RIGHT EYE -->
+      <rect x="13" y="5" width="2" height="2" fill="#1A0A00"/>
+      <rect x="14" y="5" width="1" height="1" fill="#403020"/>
+
+      <!-- NOSE (4×2, slightly lighter ridge on top row) -->
+      <rect x="8" y="7" width="4" height="2" fill="#1A0A00"/>
+      <rect x="9" y="7" width="2" height="1" fill="#2A1A0A"/>
+
+      <!-- MOUTH corners + TONGUE -->
+      <rect x="8"  y="9" width="1" height="1" fill="#8B5E03"/>
+      <rect x="9"  y="9" width="2" height="1" fill="#FF4444"/>
+      <rect x="11" y="9" width="1" height="1" fill="#8B5E03"/>
+
+      <!-- NECK -->
+      <rect x="6" y="12" width="8" height="1" fill="#E8B04B"/>
+
+      <!-- BODY base fill (x=3–16, y=13–20) -->
+      <rect x="3" y="13" width="14" height="8" fill="#E8B04B"/>
+      <!-- Darker body sides (fur shadow) -->
+      <rect x="3"  y="13" width="1" height="8" fill="#C8860A"/>
+      <rect x="16" y="13" width="1" height="8" fill="#C8860A"/>
+      <!-- Chest highlight -->
+      <rect x="7" y="14" width="6" height="5" fill="#FFD180"/>
+      <!-- Scattered fur texture dots -->
+      <rect x="4"  y="15" width="1" height="1" fill="#C8860A"/>
+      <rect x="15" y="15" width="1" height="1" fill="#C8860A"/>
+      <rect x="5"  y="18" width="1" height="1" fill="#C8860A"/>
+      <rect x="14" y="18" width="1" height="1" fill="#C8860A"/>
+
+      <!-- TAIL (separate group — CSS rotates it for wag animation) -->
+      <g class="maxi-tail">
+        <rect x="17" y="14" width="1" height="4" fill="#C8860A"/>
+        <rect x="18" y="13" width="2" height="3" fill="#E8B04B"/>
+        <rect x="19" y="12" width="1" height="3" fill="#C8860A"/>
+        <rect x="18" y="12" width="1" height="1" fill="#C8860A"/>
+      </g>
+
+      <!-- FRONT LEGS (knee row, darker) -->
+      <rect x="3"  y="21" width="4" height="1" fill="#C8860A"/>
+      <rect x="13" y="21" width="4" height="1" fill="#C8860A"/>
+
+      <!-- LEFT PAW -->
+      <rect x="3" y="22" width="4" height="2" fill="#F5E6C0"/>
+      <rect x="3" y="23" width="4" height="1" fill="#C8860A"/>
+      <rect x="3" y="22" width="1" height="2" fill="#C8860A"/>
+      <rect x="4" y="22" width="2" height="1" fill="#FFE8B0"/>
+
+      <!-- RIGHT PAW -->
+      <rect x="13" y="22" width="4" height="2" fill="#F5E6C0"/>
+      <rect x="13" y="23" width="4" height="1" fill="#C8860A"/>
+      <rect x="16" y="22" width="1" height="2" fill="#C8860A"/>
+      <rect x="14" y="22" width="2" height="1" fill="#FFE8B0"/>
+
+    </svg>
+
+    <h2 class="maxi-name">mAxI</h2>
+    <p class="maxi-tagline">Your math buddy — ask me anything!</p>
+
+    <div class="maxi-suggestions">
+      <button class="suggestion-chip" data-msg="Can you help me solve a math problem?">Help with a problem</button>
+      <button class="suggestion-chip" data-msg="Can you check my math work and tell me if I did it right?">Check my work</button>
+      <button class="suggestion-chip" data-msg="Can you explain how fractions work? Start simple.">Explain fractions</button>
+      <button class="suggestion-chip" data-msg="How do I solve an equation when the variable is on one side?">Solving equations</button>
+    </div>
+
+  </div>
+
+  <!-- ── Chat messages ── -->
+  <div class="chat-area" id="chat-area" aria-live="polite" aria-label="Chat messages"></div>
+
+  <!-- ── mAxI bar (replaces welcome once chat starts) ── -->
+  <div class="maxi-bar" id="maxi-bar" hidden>
+
+    <svg id="maxi-sprite-bar" class="maxi-sprite-bar"
+         viewBox="0 0 20 24" xmlns="http://www.w3.org/2000/svg"
+         role="img" aria-label="mAxI" aria-hidden="true">
+      <rect x="1" y="2" width="2" height="1" fill="#C8860A"/>
+      <rect x="0" y="3" width="3" height="6" fill="#C8860A"/>
+      <rect x="0" y="8" width="3" height="1" fill="#8B5E03"/>
+      <rect x="17" y="2" width="2" height="1" fill="#C8860A"/>
+      <rect x="17" y="3" width="3" height="6" fill="#C8860A"/>
+      <rect x="17" y="8" width="3" height="1" fill="#8B5E03"/>
+      <rect x="3" y="0" width="14" height="12" fill="#E8B04B"/>
+      <rect x="3" y="0" width="1"  height="12" fill="#C8860A"/>
+      <rect x="16" y="0" width="1" height="12" fill="#C8860A"/>
+      <rect x="4"  y="0" width="2" height="1" fill="#C8860A"/>
+      <rect x="7"  y="0" width="3" height="1" fill="#FFD180"/>
+      <rect x="11" y="0" width="3" height="1" fill="#FFD180"/>
+      <rect x="14" y="0" width="2" height="1" fill="#C8860A"/>
+      <rect x="6"  y="2" width="2" height="1" fill="#FFD180"/>
+      <rect x="13" y="2" width="2" height="1" fill="#FFD180"/>
+      <rect x="5"  y="4" width="2" height="1" fill="#FFD180"/>
+      <rect x="13" y="4" width="2" height="1" fill="#FFD180"/>
+      <rect x="5" y="5" width="2" height="2" fill="#1A0A00"/>
+      <rect x="5" y="5" width="1" height="1" fill="#403020"/>
+      <rect x="13" y="5" width="2" height="2" fill="#1A0A00"/>
+      <rect x="14" y="5" width="1" height="1" fill="#403020"/>
+      <rect x="8" y="7" width="4" height="2" fill="#1A0A00"/>
+      <rect x="9" y="7" width="2" height="1" fill="#2A1A0A"/>
+      <rect x="8"  y="9" width="1" height="1" fill="#8B5E03"/>
+      <rect x="9"  y="9" width="2" height="1" fill="#FF4444"/>
+      <rect x="11" y="9" width="1" height="1" fill="#8B5E03"/>
+      <rect x="6" y="12" width="8" height="1" fill="#E8B04B"/>
+      <rect x="3" y="13" width="14" height="8" fill="#E8B04B"/>
+      <rect x="3"  y="13" width="1" height="8" fill="#C8860A"/>
+      <rect x="16" y="13" width="1" height="8" fill="#C8860A"/>
+      <rect x="7" y="14" width="6" height="5" fill="#FFD180"/>
+      <rect x="4"  y="15" width="1" height="1" fill="#C8860A"/>
+      <rect x="15" y="15" width="1" height="1" fill="#C8860A"/>
+      <rect x="5"  y="18" width="1" height="1" fill="#C8860A"/>
+      <rect x="14" y="18" width="1" height="1" fill="#C8860A"/>
+      <g class="maxi-tail">
+        <rect x="17" y="14" width="1" height="4" fill="#C8860A"/>
+        <rect x="18" y="13" width="2" height="3" fill="#E8B04B"/>
+        <rect x="19" y="12" width="1" height="3" fill="#C8860A"/>
+        <rect x="18" y="12" width="1" height="1" fill="#C8860A"/>
+      </g>
+      <rect x="3"  y="21" width="4" height="1" fill="#C8860A"/>
+      <rect x="13" y="21" width="4" height="1" fill="#C8860A"/>
+      <rect x="3" y="22" width="4" height="2" fill="#F5E6C0"/>
+      <rect x="3" y="23" width="4" height="1" fill="#C8860A"/>
+      <rect x="3" y="22" width="1" height="2" fill="#C8860A"/>
+      <rect x="4" y="22" width="2" height="1" fill="#FFE8B0"/>
+      <rect x="13" y="22" width="4" height="2" fill="#F5E6C0"/>
+      <rect x="13" y="23" width="4" height="1" fill="#C8860A"/>
+      <rect x="16" y="22" width="1" height="2" fill="#C8860A"/>
+      <rect x="14" y="22" width="2" height="1" fill="#FFE8B0"/>
+    </svg>
+
+    <span class="maxi-status" id="maxi-status">Ready to help</span>
+    <button class="btn btn-ghost btn-sm" id="clear-chat-btn">Clear chat</button>
+  </div>
+
+  <!-- ── Input bar (inside root so it sits at bottom of the flex column) ── -->
+  <div class="input-bar">
+    <div class="input-inner">
+      <textarea
+        class="chat-input"
+        id="chat-input"
+        rows="1"
+        placeholder="Ask mAxI a math question…"
+        maxlength="1000"
+        aria-label="Chat message"
+      ></textarea>
+      <button class="send-btn" id="send-btn" aria-label="Send message" disabled>
+        <i class="ph-duotone ph-duotone-paper-plane-tilt" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer" id="site-footer" hidden>
+  <span class="footer-text">Family Hub · 2026</span>
+  <button class="footer-link-btn" id="lock-btn">
+    <i class="ph-duotone ph-duotone-lock-simple" aria-hidden="true"></i> Lock this device
+  </button>
+</footer>
+
+<script type="module" src="js/maxi.js"></script>
+</body>
+</html>
