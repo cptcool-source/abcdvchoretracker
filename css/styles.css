@@ -577,7 +577,7 @@ body {
   padding: 32px;
   position: relative;
   overflow: hidden;
-  opacity: 0;
+  opacity: 0.15;
   transition: border-color 0.25s, box-shadow 0.25s;
 }
 /* Inner glow layer revealed on hover */
@@ -596,31 +596,24 @@ body {
   pointer-events: none;
 }
 
-/* Power-on entrance animation */
+/* Power-on entrance animation — cards start translucent, glow to full life */
 @keyframes card-power-on {
   0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.91);
-    filter: blur(12px);
+    opacity: 0.15;
   }
   28% {
     opacity: 1;
-    transform: translateY(2px) scale(1.005);
-    filter: blur(0);
     box-shadow:
       0 0 48px color-mix(in srgb, var(--card-accent, #FF2D78) 55%, transparent),
       0 0 96px color-mix(in srgb, var(--card-accent, #FF2D78) 22%, transparent),
       inset 0 0 36px color-mix(in srgb, var(--card-accent, #FF2D78) 10%, transparent);
   }
   58% {
-    transform: translateY(0) scale(1);
     box-shadow:
       0 0 18px color-mix(in srgb, var(--card-accent, #FF2D78) 16%, transparent);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
     box-shadow: none;
   }
 }
@@ -710,7 +703,7 @@ body {
   .cards-section::before { animation: none; }
   .section-label { opacity: 1; transform: none; transition: none; }
   .card { transition: border-color 0.2s, box-shadow 0.2s; }
-  .card.revealed { animation: none; opacity: 1; transform: none; }
+  .card.revealed { animation: none; opacity: 1; }
   .card.card-done { transition: border-color 0.2s, box-shadow 0.2s; }
 }
 
