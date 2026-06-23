@@ -1164,52 +1164,24 @@ textarea.bray-input {
   .menu-card-soda-badge { background: #eee !important; border-color: #ccc !important; color: #555 !important; }
 }
 
-/* ── Build Your Own section ───────────────────────────────────────────────── */
-.byo-section {
+/* ── Build Your Own — subtle tagline-style text ───────────────────────────── */
+.byo-subtle {
   margin: 0 0 28px;
-  padding: 20px 22px;
-  border: 1px solid rgba(255, 204, 0, 0.18);
-  border-radius: 16px;
-  background: rgba(255, 204, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: center;
 }
 
-.byo-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 900;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--bray-gold);
-  margin: 0 0 16px;
-}
-
-.byo-rows { display: flex; flex-direction: column; gap: 12px; }
-
-.byo-row { display: flex; align-items: flex-start; gap: 10px; }
-
-.byo-label {
+.byo-subtle p {
   font-family: 'Geist Mono', monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.1em;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--text-faint);
-  min-width: 68px;
-  padding-top: 6px;
-  flex-shrink: 0;
-}
-
-.byo-chips { display: flex; flex-wrap: wrap; gap: 5px; }
-
-.byo-chip {
-  font-family: 'Satoshi', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-primary);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: 100px;
-  padding: 5px 13px;
-  white-space: nowrap;
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.6;
 }
 
 /* ── Signature drinks divider ─────────────────────────────────────────────── */
@@ -1238,11 +1210,8 @@ textarea.bray-input {
 .print-photo-page { display: none; }
 
 @media print {
-  /* Page 1: BYO + text-only drink cards */
-  .byo-section   { border-color: #ddd !important; background: #f9f9f9 !important; }
-  .byo-title     { color: #333 !important; }
-  .byo-chip      { background: #f0f0f0 !important; border-color: #ddd !important; color: #333 !important; }
-  .byo-label     { color: #666 !important; }
+  /* Page 1: BYO subtle text + text-only drink cards */
+  .byo-subtle p  { color: #888 !important; opacity: 1 !important; }
   .menu-section-label { color: #888 !important; }
   .menu-section-label::before,
   .menu-section-label::after { background: #ddd !important; }
