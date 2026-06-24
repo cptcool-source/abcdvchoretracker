@@ -293,7 +293,7 @@ export const ENEMIES = [
 
   {
     id: 'rift',
-    name: 'RIFT',
+    name: 'MEF',
     enemyType: 'MECH',
     tags: ['💥 VOLATILE'],
     lore: 'Unstable drone cluster. Deadly in packs. Explosive on death.',
