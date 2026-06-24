@@ -912,8 +912,10 @@ function init() {
     }
   });
 
-  // Canvas resize
-  window.addEventListener('resize', () => { resizeArena(); renderArena(); });
+  // Canvas resize — covers desktop window resize and mobile orientation change
+  window.addEventListener('resize', () => {
+    if (gs.screen === 'battle') { resizeArena(); renderArena(); }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', init);

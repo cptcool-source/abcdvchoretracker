@@ -747,6 +747,58 @@
   outline-offset: 3px;
 }
 
+/* ── Desktop enhancements ≥ 768px ────────────────────────────────────────── */
+@media (min-width: 768px) {
+  /* Section container */
+  .squad-section { max-width: 640px; }
+  #squad-clash { min-height: 580px; border-radius: 20px; }
+
+  /* Start screen */
+  .sc-logo { font-size: 2.6rem; }
+  .sc-tagline { font-size: 0.9rem; max-width: 340px; }
+  .btn-sc-start { font-size: 1.05rem; padding: 15px 48px; }
+
+  /* Cards — scale up */
+  .sc-card { width: 110px; }
+  .sc-card.sc-enemy-card { width: 130px; }
+  .sc-card-shape { width: 62px; height: 62px; }
+  .sc-shape-hex,
+  .sc-shape-diamond,
+  .sc-shape-circle,
+  .sc-shape-triangle { width: 48px; height: 48px; }
+  .sc-card-name { font-size: 0.62rem; }
+
+  /* Draft — grid instead of horizontal scroll */
+  .sc-roster-scroll { overflow: visible; }
+  .sc-roster-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    gap: 10px;
+    justify-items: center;
+  }
+  .sc-slot { max-height: 130px; }
+  .sc-confirm-row { margin-top: 8px; }
+
+  /* Enemy reveal */
+  .sc-enemy-row { gap: 20px; }
+  .sc-reveal-title { font-size: 1.3rem; }
+
+  /* Canvas — taller on desktop */
+  #sc-arena { min-height: 300px; }
+
+  /* Battle HUD */
+  .sc-battle-top { padding: 14px 20px 10px; }
+  .sc-action-bar { padding: 12px 20px; gap: 12px; }
+  .btn-sc-ability { padding: 0 24px; font-size: 0.75rem; }
+  .sc-log { height: 80px; }
+
+  /* Roster overlay — floating panel instead of full-screen takeover */
+  #sc-roster-overlay { inset: 8px; border-radius: 12px; }
+  .sc-roster-role-cards { gap: 10px; }
+  .sc-roster-title { font-size: 1.1rem; }
+}
+
 /* ── Reduced motion ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .sc-screen { animation: none; }
