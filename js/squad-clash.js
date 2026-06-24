@@ -511,8 +511,10 @@ async function resolvePlayerAbility(f, target) {
     case 'type_burst': {
       const mult = target.enemyType === 'MECH' ? 2 : 1;
       const dmg  = calcDmg(f.scaledAtk * mult, target.scaledDef);
-      dealDamage(f, target, dmg, mult === 2 ? 'OVERLOAD' : null);
-      addLog(`OVERLOAD — ${dmg} dmg vs ${target.enemyType}!`, 'ability');
+      dealDamage(f, target, dmg, mult === 2 ? 'SHIMMER' : null);
+      // Mer sparkle: flash herself gold on ability use
+      if (f.id === 'mer') flash(f.id, 'heal');
+      addLog(`✦ SHIMMER — ${dmg} dmg vs ${target.enemyType}!`, 'ability');
       break;
     }
     case 'skip_turn': {

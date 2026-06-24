@@ -136,21 +136,21 @@ export const CHARACTERS = [
   // ── CASTERS ─────────────────────────────────────────────────────────────────
 
   {
-    id: 'tessera',
-    name: 'TESSERA',
+    id: 'mer',
+    name: 'MER',
     role: 'Caster',
     tier: 1,
-    lore: 'Shattered mirror entity. Each shard runs a different program.',
+    lore: "A tiny mirror spirit — every shard alive with its own soft glow. Don't let the size fool you.",
     counters: ['MECH'],
     stats: { hp: 90, atk: 26, def: 6, spd: 2 },
     ability: {
-      name: 'OVERLOAD',
-      desc: 'Deals 2× ATK to a MECH-type target. Normal damage otherwise.',
+      name: '✦ SHIMMER',
+      desc: 'Channels mirror light — deals 2\xd7 ATK to MECH targets. Leaves a glow trail on the field.',
       cooldown: 3,
       type: 'damage',
       effectKey: 'type_burst',
     },
-    visual: { shape: 'circle', accent: '#00C2CC', glowColor: '#00C2CC60', tier: 1, sprite: null },
+    visual: { shape: 'circle', accent: '#00C2CC', glowColor: '#00C2CC80', tier: 1, sprite: null },
     runner: null, tower: null, bullet: null,
   },
 
@@ -363,7 +363,7 @@ export const ENEMIES = [
 export const UNLOCK_COSTS = { 1: 0, 2: 300, 3: 600 };
 
 // Default unlocked IDs (one T1 per role)
-export const DEFAULT_UNLOCKED = ['slab', 'vorn', 'tessera', 'dusk'];
+export const DEFAULT_UNLOCKED = ['slab', 'vorn', 'mer', 'dusk'];
 
 // ── Draw utility (canvas) ────────────────────────────────────────────────────
 // Called by squad-clash.js battle renderer when sprite === null
