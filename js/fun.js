@@ -9,12 +9,23 @@ import { initializeApp }
   from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
   from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, setDoc, updateDoc }
+import { getFirestore, doc, getDoc, setDoc, updateDoc, addDoc, collection, serverTimestamp }
   from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const PRIZE_GOAL  = 1000;
 const GUEST_CODE  = '1234'; // arcade-only access — bypasses Firebase
+
+// ── Auth event logger ─────────────────────────────────────────────────────────
+// Writes one doc per attempt to Firestore > auth_log. View in Firebase Console.
+function logAuthAttempt(result, code) {
+  addDoc(collection(db, 'auth_log'), {
+    result,          // 'guest_pass' | 'family_pass' | 'family_fail'
+    code,            // the 4 digits typed
+    page: 'fun.html',
+    ts: serverTimestamp(),
+  }).catch(() => {}); // fire-and-forget — never blocks the UI
+}
 
 // ── Firebase ──────────────────────────────────────────────────────────────────
 const fbApp = initializeApp(firebaseConfig);
@@ -59,6 +70,7 @@ async function tryUnlock() {
 
   // Guest code — arcade only, no Firebase needed
   if (code === GUEST_CODE) {
+    logAuthAttempt('guest_pass', code);
     sessionStorage.setItem('sc_guest_mode', '1');
     showFunContent();
     return;
@@ -66,8 +78,10 @@ async function tryUnlock() {
 
   try {
     await signInWithEmailAndPassword(auth, FAMILY_EMAIL, PASSWORD_PREFIX + code);
+    logAuthAttempt('family_pass', code);
     // onAuthStateChanged handles the rest
   } catch {
+    logAuthAttempt('family_fail', code);
     gateError.hidden = false;
     gateInputs.classList.add('shake');
     digits.forEach(d => { d.value = ''; });
