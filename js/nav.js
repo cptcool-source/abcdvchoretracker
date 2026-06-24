@@ -1,6 +1,16 @@
 (function () {
   'use strict';
 
+  /* ── Guest mode guard ───────────────────────────────────────────────────────
+     If a guest session is active (set by fun.js when the guest code is used),
+     only fun.html and index.html are allowed. All other pages redirect home.
+  ─────────────────────────────────────────────────────────────────────────── */
+  var GUEST_ALLOWED = ['', 'index.html', 'fun.html'];
+  var _page = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  if (sessionStorage.getItem('sc_guest_mode') === '1' && GUEST_ALLOWED.indexOf(_page) === -1) {
+    window.location.replace('index.html');
+  }
+
   /* ── Page → tab mapping ─────────────────────────────────────────────────── */
   var PAGE_TAB = {
     '': 'home', 'index.html': 'home',

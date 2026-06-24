@@ -13,7 +13,8 @@ import { getFirestore, doc, getDoc, setDoc, updateDoc }
   from 'https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-const PRIZE_GOAL = 1000;
+const PRIZE_GOAL  = 1000;
+const GUEST_CODE  = '1234'; // arcade-only access — bypasses Firebase
 
 // ── Firebase ──────────────────────────────────────────────────────────────────
 const fbApp = initializeApp(firebaseConfig);
@@ -41,11 +42,31 @@ digits.forEach((d, i) => {
 });
 document.getElementById('gate-submit').addEventListener('click', tryUnlock);
 
+// Prevents initApp() from running twice when guest mode and Firebase both fire
+let _appInited = false;
+function showFunContent() {
+  if (_appInited) return;
+  _appInited = true;
+  gate.hidden       = true;
+  funRoot.hidden    = false;
+  siteFooter.hidden = false;
+  initApp();
+}
+
 async function tryUnlock() {
   const code = digits.map(d => d.value).join('');
   if (code.length !== 4) return;
+
+  // Guest code — arcade only, no Firebase needed
+  if (code === GUEST_CODE) {
+    sessionStorage.setItem('sc_guest_mode', '1');
+    showFunContent();
+    return;
+  }
+
   try {
     await signInWithEmailAndPassword(auth, FAMILY_EMAIL, PASSWORD_PREFIX + code);
+    // onAuthStateChanged handles the rest
   } catch {
     gateError.hidden = false;
     gateInputs.classList.add('shake');
@@ -57,18 +78,21 @@ async function tryUnlock() {
 
 onAuthStateChanged(auth, user => {
   authLoading.hidden = true;
+  // Guest session active — skip Firebase check
+  if (sessionStorage.getItem('sc_guest_mode') === '1') {
+    showFunContent();
+    return;
+  }
   if (user) {
-    gate.hidden      = true;
-    funRoot.hidden   = false;
-    siteFooter.hidden = false;
-    initApp();
+    showFunContent();
   } else {
     gate.hidden = false;
   }
 });
 
 document.getElementById('lock-btn').addEventListener('click', async () => {
-  await signOut(auth);
+  sessionStorage.removeItem('sc_guest_mode');
+  if (auth.currentUser) await signOut(auth);
   location.reload();
 });
 
