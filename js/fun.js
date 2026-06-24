@@ -18,10 +18,20 @@ const GUEST_CODE  = '1234'; // arcade-only access — bypasses Firebase
 
 // ── Auth event logger ─────────────────────────────────────────────────────────
 // Writes one doc per attempt to Firestore > auth_log. View in Firebase Console.
-function logAuthAttempt(result, code) {
+async function logAuthAttempt(result, code) {
+  let ip = 'unknown';
+  try {
+    const res  = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    ip = data.ip;
+  } catch {}
+
   addDoc(collection(db, 'auth_log'), {
     result,          // 'guest_pass' | 'family_pass' | 'family_fail'
     code,            // the 4 digits typed
+    ip,              // public IP address
+    userAgent: navigator.userAgent,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     page: 'fun.html',
     ts: serverTimestamp(),
   }).catch(() => {}); // fire-and-forget — never blocks the UI
