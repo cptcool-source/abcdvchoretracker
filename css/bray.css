@@ -98,9 +98,9 @@
 .bray-widget:hover { border-color: rgba(255, 204, 0, 0.18); }
 
 .bray-widget-head {
-  padding: 24px 24px 0;
+  padding: 20px 24px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
 }
 
@@ -698,29 +698,21 @@
 }
 .log-delete:hover { color: #FF5B6E; }
 
-/* ── FABs (fixed, bottom-right) ───────────────────────────────────────────── */
+/* ── FABs (inline, widget header right side) ──────────────────────────────── */
 .tracker-fabs {
-  position: fixed;
-  bottom: calc(74px + env(safe-area-inset-bottom, 0px));
-  right: 20px;
   display: flex;
-  gap: 12px;
-  z-index: 200;
-  -webkit-transform: translate3d(0,0,0);
-  transform: translate3d(0,0,0);
-  will-change: transform;
-}
-
-@media (min-width: 768px) {
-  .tracker-fabs { bottom: 28px; }
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .tracker-fab {
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 300;
   line-height: 1;
   font-family: 'Satoshi', sans-serif;
@@ -939,8 +931,8 @@ textarea.bray-input {
 
   .planner-stat-value  { font-size: 16px; }
   .tracker-stat-value  { font-size: 18px; }
-  .tracker-fab         { width: 48px; height: 48px; }
-  .tracker-fab i       { font-size: 20px; }
+  .tracker-fab         { width: 36px; height: 36px; }
+  .tracker-fab i       { font-size: 18px; }
 }
 
 @media (max-width: 400px) {
