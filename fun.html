@@ -231,9 +231,16 @@
           </div>
           <canvas id="sc-arena"></canvas>
           <div class="sc-log" id="sc-battle-log"></div>
-          <div class="sc-action-bar">
-            <div class="sc-player-hp-row" id="sc-player-hp-row"></div>
-            <button class="btn-sc-ability on-cooldown" id="sc-ability-btn">ABILITY</button>
+          <!-- Portrait row: shape + cooldown ring + HP per character -->
+          <div class="sc-portrait-row" id="sc-portrait-row"></div>
+          <!-- Context-aware ability bar -->
+          <div class="sc-ability-bar">
+            <div class="sc-ability-info">
+              <span class="sc-ability-caster" id="sc-ability-caster">—</span>
+              <span class="sc-ability-name" id="sc-ability-name">Select a hero below</span>
+              <span class="sc-ability-hint waiting" id="sc-ability-hint">Tap a portrait to focus</span>
+            </div>
+            <button class="btn-sc-use-ability on-cooldown" id="sc-ability-btn">USE</button>
           </div>
         </div>
 

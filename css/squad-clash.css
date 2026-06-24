@@ -531,60 +531,250 @@
   display: block;
 }
 
-/* Battle action bar */
-.sc-action-bar {
+/* ── Battle log (icon-compressed, bottom-anchored) ───────────────────────── */
+.sc-log {
+  height: 62px;
+  overflow: hidden;
   display: flex;
-  gap: 8px;
-  padding: 10px 16px;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 14px 6px;
+  background: var(--bg-elevated);
   border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+.sc-log-line {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem;
+  color: rgba(238, 238, 248, 0.75);
+  line-height: 1.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sc-log-line.hit     { color: rgba(238, 238, 248, 0.9); }
+.sc-log-line.ability { color: var(--neon-amber); }
+.sc-log-line.kill    { color: var(--neon-pink); font-weight: 500; }
+.sc-log-line.effect  { color: rgba(152, 152, 192, 0.7); }
+
+/* ── Character portrait row ──────────────────────────────────────────────── */
+.sc-portrait-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 16px 8px;
   background: var(--bg-elevated);
   flex-shrink: 0;
 }
-.sc-player-hp-row {
+
+.sc-portrait {
   display: flex;
-  gap: 6px;
-  flex: 1;
-}
-.btn-sc-ability {
-  background: var(--bg-void);
-  border: 1.5px solid var(--neon-violet);
-  border-radius: 10px;
-  color: var(--neon-violet);
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.04em;
-  padding: 0 14px;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 84px;
+  padding: 6px 6px 8px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
   cursor: pointer;
-  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  transition: background 0.15s;
+  transition: border-color 0.2s, background 0.2s, opacity 0.3s;
 }
-.btn-sc-ability:active { background: var(--neon-violet); color: #fff; }
-.btn-sc-ability.on-cooldown {
-  opacity: 0.35;
+.sc-portrait:active { opacity: 0.8; }
+.sc-portrait.selected {
+  border-color: var(--neon-teal);
+  background: rgba(0, 194, 204, 0.07);
+}
+.sc-portrait.acting {
+  border-color: var(--neon-amber);
+  animation: scPortraitPulse 0.55s ease infinite alternate;
+}
+.sc-portrait.dead {
+  opacity: 0.25;
   pointer-events: none;
+  filter: grayscale(1);
+}
+@keyframes scPortraitPulse {
+  from { box-shadow: none; }
+  to   { box-shadow: 0 0 14px rgba(255, 184, 0, 0.45); }
 }
 
-/* Battle log */
-.sc-log {
-  height: 56px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  padding: 0 16px 6px;
-  background: var(--bg-surface);
+/* CD ring wrapper */
+.sc-portrait-cd-wrap {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
-.sc-log::-webkit-scrollbar { display: none; }
-.sc-log-line {
+
+/* Shape inside the ring */
+.sc-portrait-shape-bg {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+.sc-portrait .sc-shape-hex,
+.sc-portrait .sc-shape-diamond,
+.sc-portrait .sc-shape-circle,
+.sc-portrait .sc-shape-triangle {
+  width: 32px;
+  height: 32px;
+}
+.sc-portrait .sc-shape-circle::after { inset: -4px; }
+
+/* SVG cooldown ring */
+.sc-cd-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  z-index: 2;
+  pointer-events: none;
+  overflow: visible;
+}
+.sc-cd-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.09);
+  stroke-width: 3;
+}
+.sc-cd-fill {
+  fill: none;
+  stroke-width: 3;
+  stroke-dasharray: 144.51; /* 2π × 23 */
+  stroke-dashoffset: 0;     /* 0 = full ring = READY */
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.35s ease;
+}
+
+/* "RDY" badge appears when ability is ready */
+.sc-portrait-ready-badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: var(--neon-amber);
+  color: var(--bg-void);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.42rem;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 2px 4px;
+  letter-spacing: 0.04em;
+  z-index: 3;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.sc-portrait-ready-badge.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.sc-portrait-name {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.54rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+}
+.sc-portrait.selected .sc-portrait-name { color: var(--neon-teal); }
+.sc-portrait.acting   .sc-portrait-name { color: var(--neon-amber); }
+
+.sc-portrait-hp-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.sc-portrait-hp-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--neon-teal);
+  transition: width 0.3s ease, background 0.3s;
+}
+
+/* ── Ability bar ─────────────────────────────────────────────────────────── */
+.sc-ability-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px 12px;
+  background: var(--bg-surface);
+  flex-shrink: 0;
+  min-height: 54px;
+}
+.sc-ability-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.sc-ability-caster {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+.sc-ability-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sc-ability-hint {
   font-family: 'Satoshi', sans-serif;
   font-size: 0.65rem;
   color: var(--text-faint);
-  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.sc-log-line.hit    { color: var(--neon-pink); }
-.sc-log-line.ability { color: var(--neon-teal); }
-.sc-log-line.kill   { color: var(--neon-amber); font-weight: 700; }
+.sc-ability-hint.good    { color: var(--neon-amber); }
+.sc-ability-hint.ready   { color: var(--neon-teal); }
+.sc-ability-hint.waiting { color: var(--text-faint); }
+
+.btn-sc-use-ability {
+  background: var(--neon-violet);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 10px 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  touch-action: manipulation;
+  transition: background 0.15s, box-shadow 0.2s, transform 0.1s;
+}
+.btn-sc-use-ability:active { transform: scale(0.96); }
+.btn-sc-use-ability.on-cooldown {
+  background: var(--bg-elevated);
+  color: var(--text-faint);
+  pointer-events: none;
+}
+.btn-sc-use-ability.queued {
+  background: var(--neon-teal);
+  box-shadow: 0 0 16px rgba(0, 194, 204, 0.4);
+}
 
 /* ── RESULT SCREEN ───────────────────────────────────────────────────────── */
 #sc-result { justify-content: center; text-align: center; }
@@ -787,13 +977,28 @@
   /* Canvas — taller on desktop */
   #sc-arena { min-height: 300px; }
 
-  /* Battle HUD */
+  /* Battle log */
   .sc-battle-top { padding: 14px 20px 10px; }
-  .sc-action-bar { padding: 12px 20px; gap: 12px; }
-  .btn-sc-ability { padding: 0 24px; font-size: 0.75rem; }
-  .sc-log { height: 80px; }
+  .sc-log { height: 72px; padding: 0 20px 8px; }
+  .sc-log-line { font-size: 0.76rem; }
 
-  /* Roster overlay — floating panel instead of full-screen takeover */
+  /* Portrait row */
+  .sc-portrait-row { gap: 14px; padding: 12px 20px 10px; }
+  .sc-portrait { width: 100px; padding: 8px 8px 10px; }
+  .sc-portrait-cd-wrap { width: 64px; height: 64px; }
+  .sc-portrait .sc-shape-hex,
+  .sc-portrait .sc-shape-diamond,
+  .sc-portrait .sc-shape-circle,
+  .sc-portrait .sc-shape-triangle { width: 38px; height: 38px; }
+  .sc-portrait-name { font-size: 0.6rem; }
+
+  /* Ability bar */
+  .sc-ability-bar { padding: 10px 20px 14px; gap: 16px; }
+  .sc-ability-name { font-size: 0.95rem; }
+  .sc-ability-hint { font-size: 0.7rem; }
+  .btn-sc-use-ability { padding: 12px 28px; font-size: 0.88rem; }
+
+  /* Roster overlay — floating panel */
   #sc-roster-overlay { inset: 8px; border-radius: 12px; }
   .sc-roster-role-cards { gap: 10px; }
   .sc-roster-title { font-size: 1.1rem; }
