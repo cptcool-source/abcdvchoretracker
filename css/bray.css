@@ -98,9 +98,9 @@
 .bray-widget:hover { border-color: rgba(255, 204, 0, 0.18); }
 
 .bray-widget-head {
-  padding: 20px 24px;
+  padding: 24px 24px 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 14px;
 }
 
@@ -698,13 +698,15 @@
 }
 .log-delete:hover { color: #FF5B6E; }
 
-/* ── FABs (inline, widget header right side) ──────────────────────────────── */
+/* ── FABs (inline, widget header — top-right of Sales Tracker) ────────────── */
 .tracker-fabs {
   display: flex;
   gap: 8px;
   align-items: center;
   flex-shrink: 0;
   margin-left: auto;
+  align-self: flex-start;
+  padding-top: 2px;
 }
 
 .tracker-fab {
