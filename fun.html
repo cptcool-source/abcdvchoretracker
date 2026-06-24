@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 <link rel="stylesheet" href="css/styles.css">
 <link rel="stylesheet" href="css/fun.css">
+<link rel="stylesheet" href="css/squad-clash.css">
 </head>
 <body>
 
@@ -174,6 +175,92 @@
       </div>
     </section>
 
+    <!-- ── Squad Clash ── -->
+    <section class="squad-section">
+      <h2 class="squad-section-heading">Squad Clash</h2>
+      <p class="squad-section-sub">Pick your squad. Counter the threat. Earn AP.</p>
+
+      <div id="squad-clash">
+
+        <!-- AP bar -->
+        <div class="sc-ap-bar">
+          <span class="sc-ap-icon">⚡</span>
+          <span class="sc-ap-label">Arcade Points</span>
+          <span class="sc-ap-value" id="sc-ap-val">0</span>
+          <button class="sc-roster-btn" id="sc-roster-open">Roster</button>
+        </div>
+
+        <!-- START SCREEN -->
+        <div class="sc-screen active" id="sc-start">
+          <div class="sc-logo">SQUAD<br><span>CLASH</span></div>
+          <p class="sc-tagline">3 enemies are revealed. Draft the squad that counters them best.</p>
+          <button class="btn-sc-start" id="sc-play-btn">PLAY</button>
+        </div>
+
+        <!-- REVEAL SCREEN -->
+        <div class="sc-screen" id="sc-reveal">
+          <div class="sc-phase-label">PHASE <span>01</span> — ENEMY REVEAL</div>
+          <div class="sc-reveal-title">Enemies this round</div>
+          <div class="sc-reveal-hint">Study their types and tags. Choose your counters wisely.</div>
+          <div class="sc-enemy-row" id="sc-reveal-row"></div>
+          <button class="btn-sc-start" id="sc-draft-btn">DRAFT SQUAD →</button>
+        </div>
+
+        <!-- DRAFT SCREEN -->
+        <div class="sc-screen" id="sc-draft">
+          <div class="sc-phase-label">PHASE <span>02</span> — DRAFT</div>
+          <div class="sc-slot-row" id="sc-slot-row">
+            <div class="sc-slot">SLOT 1</div>
+            <div class="sc-slot">SLOT 2</div>
+            <div class="sc-slot">SLOT 3</div>
+          </div>
+          <div class="sc-roster-scroll">
+            <div class="sc-roster-grid" id="sc-roster-grid"></div>
+          </div>
+          <div class="sc-confirm-row">
+            <button class="btn-sc-clear" id="sc-clear-btn">Clear</button>
+            <button class="btn-sc-confirm" id="sc-confirm-btn" disabled>FIGHT →</button>
+          </div>
+        </div>
+
+        <!-- BATTLE SCREEN -->
+        <div class="sc-screen" id="sc-battle">
+          <div class="sc-battle-top">
+            <div class="sc-wave-label">BATTLE</div>
+            <div class="sc-enemy-hp-row" id="sc-enemy-hp-row"></div>
+          </div>
+          <canvas id="sc-arena" height="220"></canvas>
+          <div class="sc-log" id="sc-battle-log"></div>
+          <div class="sc-action-bar">
+            <div class="sc-player-hp-row" id="sc-player-hp-row"></div>
+            <button class="btn-sc-ability on-cooldown" id="sc-ability-btn">ABILITY</button>
+          </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div class="sc-screen" id="sc-result">
+          <div class="sc-result-icon" id="sc-result-icon">⚡</div>
+          <div class="sc-result-title" id="sc-result-title">VICTORY</div>
+          <div class="sc-result-ap" id="sc-result-ap">+50 AP earned</div>
+          <div class="sc-result-sub" id="sc-result-sub"></div>
+          <div class="sc-result-actions">
+            <button class="btn-sc-retry" id="sc-retry-btn">PLAY AGAIN</button>
+            <button class="btn-sc-roster" id="sc-roster-link-btn">Roster</button>
+          </div>
+        </div>
+
+        <!-- ROSTER OVERLAY -->
+        <div id="sc-roster-overlay">
+          <div class="sc-roster-header">
+            <span class="sc-roster-title">Character Roster</span>
+            <button class="btn-sc-close-roster" id="sc-roster-close">✕</button>
+          </div>
+          <div class="sc-roster-body" id="sc-roster-body"></div>
+        </div>
+
+      </div><!-- /#squad-clash -->
+    </section>
+
     <!-- ── Coming Soon ── -->
     <section class="coming-soon-section">
       <div class="coming-soon-card">
@@ -242,6 +329,7 @@
 </footer>
 
 <script type="module" src="js/fun.js"></script>
+<script type="module" src="js/squad-clash.js"></script>
 <script src="js/nav.js"></script>
 </body>
 </html>

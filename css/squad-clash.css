@@ -1,0 +1,755 @@
+/* Squad Clash — portrait-first mobile game styles */
+/* Relies on design tokens from styles.css */
+
+/* ── Section wrapper ─────────────────────────────────────────────────────── */
+.squad-section {
+  padding: 0 16px 40px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.squad-section-heading {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+}
+.squad-section-sub {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin: 0 0 20px;
+}
+
+/* ── Game shell ──────────────────────────────────────────────────────────── */
+#squad-clash {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── AP bar (always visible at top of game) ──────────────────────────────── */
+.sc-ap-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+.sc-ap-icon { font-size: 0.9rem; }
+.sc-ap-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.sc-ap-value {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--neon-amber);
+  margin-left: auto;
+}
+.sc-roster-btn {
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.sc-roster-btn:hover { border-color: var(--neon-violet); color: var(--text-primary); }
+
+/* ── Screens ─────────────────────────────────────────────────────────────── */
+.sc-screen {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px;
+  gap: 16px;
+}
+.sc-screen.active { display: flex; }
+
+/* ── START SCREEN ─────────────────────────────────────────────────────────── */
+#sc-start {
+  justify-content: center;
+  text-align: center;
+}
+.sc-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+.sc-logo span { color: var(--neon-violet); }
+.sc-tagline {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  max-width: 240px;
+}
+.btn-sc-start {
+  background: var(--neon-violet);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 14px 40px;
+  cursor: pointer;
+  box-shadow: 0 0 20px #A020F040;
+  transition: box-shadow 0.2s, transform 0.1s;
+  touch-action: manipulation;
+}
+.btn-sc-start:active { transform: scale(0.97); box-shadow: 0 0 10px #A020F040; }
+
+/* ── ENEMY REVEAL SCREEN ─────────────────────────────────────────────────── */
+#sc-reveal { justify-content: flex-start; }
+
+.sc-phase-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  align-self: flex-start;
+}
+.sc-phase-label span { color: var(--neon-pink); }
+
+.sc-reveal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  text-align: center;
+}
+.sc-reveal-hint {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.sc-enemy-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* ── DRAFT SCREEN ────────────────────────────────────────────────────────── */
+#sc-draft { justify-content: flex-start; gap: 12px; }
+
+.sc-slot-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.sc-slot {
+  flex: 1;
+  aspect-ratio: 3/4;
+  max-height: 100px;
+  border: 2px dashed var(--border-subtle);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-faint);
+  transition: border-color 0.2s;
+}
+.sc-slot.filled { border-style: solid; border-color: var(--neon-violet); }
+.sc-slot.filled canvas { width: 100%; height: 100%; }
+
+.sc-roster-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.sc-roster-scroll::-webkit-scrollbar { display: none; }
+
+.sc-roster-grid {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  padding-bottom: 4px;
+}
+
+.sc-confirm-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  margin-top: auto;
+}
+.btn-sc-confirm {
+  flex: 1;
+  background: var(--neon-violet);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 12px;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  touch-action: manipulation;
+}
+.btn-sc-confirm.ready { opacity: 1; box-shadow: 0 0 16px #A020F050; }
+.btn-sc-clear {
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.8rem;
+  padding: 12px 16px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* ── CHARACTER CARD ──────────────────────────────────────────────────────── */
+.sc-card {
+  width: 90px;
+  background: var(--bg-elevated);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 8px 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative;
+  touch-action: manipulation;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.sc-card:active { transform: scale(0.96); }
+.sc-card.locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+.sc-card.selected {
+  border-color: var(--neon-violet);
+  box-shadow: 0 0 14px #A020F040;
+}
+.sc-card.tap-preview {
+  border-color: var(--neon-teal);
+  box-shadow: 0 0 14px #00C2CC30;
+  transform: scale(1.04);
+}
+.sc-card.in-squad {
+  border-color: var(--neon-amber);
+  box-shadow: 0 0 10px #FFB80030;
+}
+
+.sc-card-shape {
+  width: 52px;
+  height: 52px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CSS role shapes (used when sprite is null) */
+.sc-shape-hex,
+.sc-shape-diamond,
+.sc-shape-circle,
+.sc-shape-triangle {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+/* Hexagon — Tank */
+.sc-shape-hex {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+/* Diamond — Brawler */
+.sc-shape-diamond {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* Circle — Caster */
+.sc-shape-circle {
+  border-radius: 50%;
+}
+.sc-shape-circle::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0.4;
+}
+
+/* Triangle — Archer */
+.sc-shape-triangle {
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+/* Tier glow ring */
+.sc-card[data-tier="2"] .sc-card-shape::after,
+.sc-card[data-tier="3"] .sc-card-shape::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid;
+  border-color: inherit;
+  opacity: 0.35;
+}
+.sc-card[data-tier="3"] .sc-card-shape::after { opacity: 0.6; }
+
+.sc-card-name {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
+}
+.sc-card-role {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.55rem;
+  color: var(--text-faint);
+  text-align: center;
+}
+.sc-card-counter {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.5rem;
+  background: var(--bg-void);
+  border-radius: 4px;
+  padding: 2px 5px;
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Tier pip dots */
+.sc-card-pips {
+  display: flex;
+  gap: 3px;
+  margin-top: 1px;
+}
+.sc-card-pip {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+/* Lock overlay */
+.sc-card-lock {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 0.6rem;
+  opacity: 0.5;
+}
+.sc-card-ap-cost {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.5rem;
+  color: var(--neon-amber);
+}
+
+/* Card preview tooltip (tap-preview state) */
+.sc-card-preview {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-elevated);
+  border: 1px solid var(--neon-teal);
+  border-radius: 10px;
+  padding: 10px 12px;
+  width: 200px;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  display: none;
+}
+.sc-card.tap-preview .sc-card-preview { display: block; }
+.sc-preview-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.sc-preview-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 8px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.sc-preview-ability-name {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--neon-teal);
+  margin-bottom: 2px;
+}
+.sc-preview-ability-desc {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.65rem;
+  color: var(--text-faint);
+  line-height: 1.4;
+}
+.sc-preview-counter {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--neon-amber);
+  margin-top: 4px;
+}
+.sc-preview-confirm-hint {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.6rem;
+  color: var(--neon-teal);
+  text-align: center;
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+/* Enemy card variant */
+.sc-card.sc-enemy-card {
+  width: 100px;
+  pointer-events: none;
+  cursor: default;
+}
+.sc-card.sc-enemy-card .sc-card-name { color: var(--neon-pink); }
+
+.sc-enemy-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  margin-top: 2px;
+}
+.sc-enemy-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.45rem;
+  background: var(--bg-void);
+  border-radius: 3px;
+  padding: 1px 4px;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+/* ── BATTLE SCREEN ───────────────────────────────────────────────────────── */
+#sc-battle { padding: 0; gap: 0; }
+
+.sc-battle-top {
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+.sc-wave-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-faint);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.sc-wave-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* HP bars (enemies) */
+.sc-enemy-hp-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.sc-hp-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sc-hp-name {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.5rem;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sc-hp-track {
+  height: 4px;
+  background: var(--bg-void);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.sc-hp-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.sc-hp-fill.enemy  { background: var(--neon-pink); }
+.sc-hp-fill.player { background: var(--neon-teal); }
+
+/* Canvas arena */
+#sc-arena {
+  flex: 1;
+  width: 100%;
+  display: block;
+}
+
+/* Battle action bar */
+.sc-action-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+.sc-player-hp-row {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+}
+.btn-sc-ability {
+  background: var(--bg-void);
+  border: 1.5px solid var(--neon-violet);
+  border-radius: 10px;
+  color: var(--neon-violet);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  padding: 0 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+  touch-action: manipulation;
+  transition: background 0.15s;
+}
+.btn-sc-ability:active { background: var(--neon-violet); color: #fff; }
+.btn-sc-ability.on-cooldown {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Battle log */
+.sc-log {
+  height: 56px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  padding: 0 16px 6px;
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+.sc-log::-webkit-scrollbar { display: none; }
+.sc-log-line {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.65rem;
+  color: var(--text-faint);
+  line-height: 1.6;
+}
+.sc-log-line.hit    { color: var(--neon-pink); }
+.sc-log-line.ability { color: var(--neon-teal); }
+.sc-log-line.kill   { color: var(--neon-amber); font-weight: 700; }
+
+/* ── RESULT SCREEN ───────────────────────────────────────────────────────── */
+#sc-result { justify-content: center; text-align: center; }
+
+.sc-result-icon { font-size: 3rem; }
+.sc-result-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
+}
+.sc-result-title.win  { color: var(--neon-amber); }
+.sc-result-title.lose { color: var(--neon-pink); }
+.sc-result-ap {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--neon-amber);
+}
+.sc-result-sub {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+.sc-result-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+.btn-sc-retry {
+  flex: 1;
+  background: var(--neon-violet);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 12px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.btn-sc-roster {
+  flex: 1;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-family: 'Satoshi', sans-serif;
+  font-size: 0.85rem;
+  padding: 12px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* ── ROSTER OVERLAY ──────────────────────────────────────────────────────── */
+#sc-roster-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-void);
+  z-index: 50;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+#sc-roster-overlay.open { display: flex; }
+
+.sc-roster-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+.sc-roster-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.btn-sc-close-roster {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.sc-roster-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.sc-roster-role-group {}
+.sc-roster-role-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+.sc-roster-role-cards {
+  display: flex;
+  gap: 8px;
+}
+
+.sc-unlock-btn {
+  margin-top: 6px;
+  width: 100%;
+  background: none;
+  border: 1px solid var(--neon-amber);
+  border-radius: 8px;
+  color: var(--neon-amber);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.04em;
+  padding: 5px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.15s;
+}
+.sc-unlock-btn:active { background: var(--neon-amber); color: var(--bg-void); }
+.sc-unlock-btn:disabled { opacity: 0.3; pointer-events: none; }
+
+/* ── Transition animation ────────────────────────────────────────────────── */
+.sc-screen { animation: scFadeIn 0.25s ease both; }
+@keyframes scFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Counter badge on cards ──────────────────────────────────────────────── */
+.sc-counter-match {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: var(--neon-amber);
+  color: var(--bg-void);
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.45rem;
+  font-weight: 700;
+  border-radius: 4px;
+  padding: 1px 4px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Focus visible ───────────────────────────────────────────────────────── */
+.sc-card:focus-visible,
+.btn-sc-start:focus-visible,
+.btn-sc-confirm:focus-visible,
+.btn-sc-ability:focus-visible {
+  outline: 2px solid var(--neon-teal);
+  outline-offset: 3px;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .sc-screen { animation: none; }
+  .sc-hp-fill { transition: none; }
+  .sc-card { transition: none; }
+}
