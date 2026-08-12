@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4f3ef">
+  <title>mAxI's Kitchen — Family Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/dog-chef.css">
+</head>
+<body class="chef-body">
+  <header class="site-nav chef-site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><i class="ph-duotone ph-duotone-arrow-left" aria-hidden="true"></i><span>Family Hub</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html" class="nav-link">Home</a><a href="calendar.html" class="nav-link">Calendar</a><a href="memories.html" class="nav-link">Memories</a><a href="maxi.html" class="nav-link">Ask mAxI</a><a href="fun.html" class="nav-link">Fun Zone</a><a href="study.html" class="nav-link">Study Zone</a><a href="chores.html" class="nav-link">Chores</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="auth-loading" class="loading-state">mAxI is finding his apron...</div>
+
+  <div id="passcode-gate" class="gate-overlay" hidden>
+    <div class="gate-card">
+      <i class="ph-duotone ph-duotone-cooking-pot gate-icon" aria-hidden="true"></i>
+      <h2>mAxI's Kitchen</h2>
+      <p>Family passcode</p>
+      <div class="gate-inputs" id="gate-inputs">
+        <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off" aria-label="Passcode digit 1">
+        <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off" aria-label="Passcode digit 2">
+        <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off" aria-label="Passcode digit 3">
+        <input type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="gate-digit" autocomplete="off" aria-label="Passcode digit 4">
+      </div>
+      <p class="gate-error" id="gate-error" hidden>Wrong code — paws and try again.</p>
+      <button class="gate-submit" id="gate-submit">Open kitchen</button>
+    </div>
+  </div>
+
+  <main id="dog-chef-root" class="chef-shell" hidden>
+    <header class="kitchen-heading">
+      <div>
+        <p>mAxI's Kitchen</p>
+        <h1>Pick this week's bowl.</h1>
+      </div>
+      <button id="lock-btn" class="lock-button" aria-label="Lock mAxI's Kitchen"><i class="ph-duotone ph-duotone-lock-simple" aria-hidden="true"></i></button>
+    </header>
+
+    <section class="recipe-stack" id="recipe-stack" aria-label="Seven-day recipes"></section>
+
+    <section class="shared-card" aria-labelledby="shared-title">
+      <button type="button" class="shared-summary" id="shared-toggle" aria-expanded="false" aria-controls="shared-details">
+        <span class="shared-icon"><i class="ph-duotone ph-duotone-pill" aria-hidden="true"></i></span>
+        <span><small>EVERY RECIPE</small><strong id="shared-title">1 powder + 1 omega choice</strong></span>
+        <i class="ph-duotone ph-duotone-caret-down shared-caret" aria-hidden="true"></i>
+      </button>
+      <div class="shared-details" id="shared-details" hidden></div>
+    </section>
+
+    <p class="price-stamp">North Port Walmart · checked Aug 11, 2026</p>
+  </main>
+
+  <footer class="site-footer" id="site-footer" hidden><span>mAxI's Kitchen</span></footer>
+  <script src="js/dog-chef-boot.js"></script>
+  <script type="module" src="js/dog-chef.js"></script>
+  <script src="js/nav.js"></script>
+</body>
+</html>

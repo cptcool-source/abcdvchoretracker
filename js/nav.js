@@ -17,7 +17,7 @@
     'calendar.html': 'calendar',
     'memories.html': 'memories',
     'fun.html': 'fun',
-    'maxi.html': 'more', 'study.html': 'more',
+    'maxi.html': 'more', 'dog-chef.html': 'more', 'study.html': 'more',
     'chores.html': 'more', 'meals.html': 'more'
   };
 
@@ -31,6 +31,7 @@
 
   var LINK_ACCENT = {
     'maxi.html':   '#FFB800',
+    'dog-chef.html': '#FFB800',
     'study.html':  '#00C2CC',
     'chores.html': '#A020F0',
     'meals.html':  '#FF8C42'
@@ -239,6 +240,7 @@
       '</div>' +
       '<div class="mob-more-links">' +
         mkLink('maxi.html',   'ph-duotone-paw-print',  'Ask mAxI')    +
+        mkLink('dog-chef.html','ph-duotone-cooking-pot','mAxI\'s Kitchen') +
         mkLink('study.html',  'ph-duotone-heartbeat',  'Study Zone')  +
         mkLink('chores.html', 'ph-duotone-sparkle',    'Chores')      +
         mkLink('meals.html',  'ph-duotone-fork-knife', 'Meal Planner')+

@@ -26,17 +26,21 @@ index.html              Landing page — hero, animated circuit traces, card gri
 chores.html             Chore Squad — chore tracker with live cross-device sync
 memories.html           Family Memories — photo timeline and file uploads
 study.html              Mom's Study Zone — full NCLEX-PN study tool
+dog-chef.html           mAxI's Kitchen — chicken-free recipes, portions, costs, and shopping
 
 css/styles.css          Global design system: tokens, nav, buttons, gates, footer, hero, cards
 css/chores.css          Chore tracker page styles
 css/memories.css        Memories page styles
 css/study.css           Study Zone styles (optimized for sustained reading)
+css/dog-chef.css        mAxI's Kitchen mobile grocery-card styles
 
 js/firebase-config.js   Firebase project config + Cloudinary preset (public values, not secrets)
 js/script.js            Shared: active nav link highlight
 js/chores.js            Chore tracker: gate, live Firestore sync, rendering
 js/memories.js          Memories: gate, Cloudinary unsigned uploads, Firestore timeline
 js/study.js             Study Zone: gate, quiz engine, stats, notes, YouTube video picker
+js/dog-chef-boot.js     Loading/auth recovery message for direct-file or network failures
+js/dog-chef.js          Seven-day recipe cards, cost math, notes, cooking steps, and saved checklists
 ```
 
 No build step — plain HTML/CSS/JS plus Firebase Web SDK (ESM) from Google's CDN. Pages with Firestore (`chores.html`, `memories.html`, `study.html`) require `http://` or `https://` — ES module imports are blocked on bare `file://` paths. `index.html` opens fine directly.

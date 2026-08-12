@@ -1,0 +1,173 @@
+:root {
+  --chef-paper: #f4f3ef;
+  --chef-card: #ffffff;
+  --chef-ink: #191817;
+  --chef-muted: #706d66;
+  --chef-line: #dedbd3;
+  --chef-soft: #eeece6;
+  --chef-green: #2f7659;
+  --chef-focus: #165f46;
+}
+
+.chef-body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--chef-paper);
+  color: var(--chef-ink);
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.chef-body [hidden] { display: none !important; }
+.chef-body button, .chef-body select, .chef-body input { font: inherit; }
+.chef-body button { touch-action: manipulation; }
+
+.chef-site-nav {
+  background: rgba(244, 243, 239, 0.95);
+  border-bottom: 1px solid var(--chef-line);
+  color: var(--chef-ink);
+  backdrop-filter: blur(14px);
+}
+.chef-site-nav .nav-logo, .chef-site-nav .nav-link { color: var(--chef-ink); }
+
+.loading-state {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  color: var(--chef-muted);
+  font: 700 11px "Geist Mono", monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.loading-state.loading-failed { align-content: center; gap: 9px; justify-items: center; padding: 24px; text-align: center; }
+.loading-state.loading-failed strong { color: var(--chef-ink); }
+.loading-state.loading-failed span { max-width: 420px; color: var(--chef-muted); font-size: 10px; line-height: 1.7; }
+.loading-state.loading-failed button { min-height: 44px; margin-top: 4px; padding: 10px 16px; border: 1px solid var(--chef-line); border-radius: 999px; background: var(--chef-card); color: var(--chef-ink); cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em; }
+
+.gate-overlay { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; background: rgba(244, 243, 239, 0.98); }
+.gate-card { width: min(360px, 100%); padding: 30px 24px; text-align: center; background: var(--chef-card); border: 1px solid var(--chef-line); border-radius: 22px; box-shadow: 0 18px 50px rgba(34, 29, 22, 0.09); }
+.gate-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; color: #946009; background: #fff0c8; border-radius: 16px; font-size: 28px; }
+.gate-card h2 { margin: 14px 0 4px; font-size: 25px; letter-spacing: -0.04em; }
+.gate-card p { margin: 0; color: var(--chef-muted); font-size: 13px; }
+.gate-inputs { display: flex; justify-content: center; gap: 9px; margin: 22px 0; }
+.gate-digit { width: 52px; height: 58px; border: 1px solid var(--chef-line); border-radius: 12px; background: var(--chef-paper); color: var(--chef-ink); text-align: center; font: 700 24px "Geist Mono", monospace; }
+.gate-digit:focus-visible { outline: 3px solid rgba(22, 95, 70, 0.25); border-color: var(--chef-focus); }
+.gate-card .gate-error { color: #a53329; }
+.gate-submit { width: 100%; min-height: 48px; margin-top: 14px; border: 0; border-radius: 12px; background: var(--chef-ink); color: #fff; font-weight: 800; cursor: pointer; }
+
+.chef-shell { width: min(600px, 100%); margin: 0 auto; padding: 20px 14px 96px; }
+.kitchen-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 2px 16px; }
+.kitchen-heading p { margin: 0 0 4px; color: var(--chef-green); font: 700 11px "Geist Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.kitchen-heading h1 { margin: 0; font-size: clamp(24px, 7vw, 32px); line-height: 1.05; letter-spacing: -0.05em; }
+.lock-button { flex: 0 0 auto; width: 46px; height: 46px; border: 1px solid var(--chef-line); border-radius: 50%; background: var(--chef-card); color: var(--chef-muted); font-size: 20px; cursor: pointer; }
+.lock-button:focus-visible, .recipe-summary:focus-visible, .shared-summary:focus-visible, .detail-toggle:focus-visible { outline: 3px solid rgba(22, 95, 70, 0.24); outline-offset: 2px; }
+
+.recipe-stack { display: grid; gap: 12px; }
+.recipe-card { --accent: #b66c14; --wash: #fff0cd; overflow: clip; background: var(--chef-card); border: 1px solid var(--chef-line); border-radius: 20px; box-shadow: 0 4px 16px rgba(34, 29, 22, 0.035); }
+.recipe-card.is-open { border-color: color-mix(in srgb, var(--accent) 46%, var(--chef-line)); box-shadow: 0 10px 28px rgba(34, 29, 22, 0.07); }
+.recipe-summary { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.recipe-summary:active { background: #faf9f6; }
+.recipe-banner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 13px 14px; background: var(--wash); }
+.recipe-banner small { display: block; margin-bottom: 4px; color: var(--accent); font: 700 10px "Geist Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.recipe-banner h2 { margin: 0; font-size: 21px; line-height: 1.02; letter-spacing: -0.045em; }
+.recipe-symbol { flex: 0 0 auto; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--chef-card); color: var(--accent); font-size: 22px; box-shadow: 0 4px 12px rgba(74, 56, 29, 0.07); }
+.recipe-metrics { display: grid; grid-template-columns: 1.35fr 1fr 0.78fr; border-bottom: 1px solid var(--chef-line); }
+.recipe-metric { min-width: 0; padding: 8px 12px; border-right: 1px solid var(--chef-line); }
+.recipe-metric:last-child { border-right: 0; }
+.recipe-metric span { display: block; margin-bottom: 3px; color: var(--chef-muted); font: 700 9px "Geist Mono", monospace; letter-spacing: 0.05em; text-transform: uppercase; }
+.recipe-metric strong { display: block; font: 700 15px "Geist Mono", monospace; letter-spacing: -0.04em; white-space: nowrap; }
+.recipe-metric:first-child strong { color: var(--accent); font-size: 19px; }
+.quick-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 0; padding: 5px 12px; list-style: none; }
+.quick-list li { min-width: 0; padding: 3px 7px 3px 0; color: #4e4b45; font-size: 11px; font-weight: 650; line-height: 1.25; }
+.quick-list li:nth-child(even) { padding-left: 8px; border-left: 1px solid var(--chef-soft); }
+.pantry-strip { display: grid; grid-template-columns: minmax(0,1fr) auto 20px; align-items: center; gap: 8px; min-height: 36px; padding: 6px 12px; border-top: 1px dashed var(--chef-line); background: #fbfaf7; color: var(--chef-muted); font-size: 10px; }
+.pantry-strip span { display: flex; align-items: center; gap: 6px; }
+.pantry-strip strong { color: var(--chef-ink); font: 700 10px "Geist Mono", monospace; white-space: nowrap; }
+.pantry-caret { color: var(--accent); font-size: 15px; transition: transform 180ms ease; }
+.recipe-card.is-open .pantry-caret { transform: rotate(180deg); }
+
+.recipe-details { border-top: 1px solid var(--chef-line); }
+.detail-intro { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px 8px; }
+.detail-intro strong { font-size: 14px; }
+.detail-intro span { color: var(--chef-muted); font: 600 10px "Geist Mono", monospace; }
+.clear-checks { min-height: 38px; padding: 8px 10px; border: 1px solid var(--chef-line); border-radius: 9px; background: var(--chef-card); color: var(--chef-muted); font-size: 11px; font-weight: 700; cursor: pointer; }
+.check-list { margin: 0; padding: 0 14px 12px; list-style: none; }
+.check-row { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 9px; min-height: 61px; border-bottom: 1px solid var(--chef-soft); }
+.check-row:last-child { border-bottom: 0; }
+.check-box { display: grid; place-items: center; width: 28px; height: 44px; cursor: pointer; }
+.check-box input { position: absolute; opacity: 0; pointer-events: none; }
+.check-mark { display: grid; place-items: center; width: 23px; height: 23px; border: 1.5px solid #aaa69e; border-radius: 7px; color: transparent; }
+.check-box input:focus-visible + .check-mark { outline: 3px solid rgba(22, 95, 70, 0.24); outline-offset: 2px; }
+.check-box input:checked + .check-mark { border-color: var(--chef-green); background: var(--chef-green); color: #fff; }
+.check-copy { min-width: 0; }
+.check-copy strong { display: flex; align-items: center; gap: 5px; color: var(--chef-ink); font-size: 13px; line-height: 1.25; }
+.check-copy small { display: block; margin-top: 3px; color: var(--chef-muted); font: 600 10px "Geist Mono", monospace; line-height: 1.35; }
+.critical-star { color: #a95d00; font-size: 12px; }
+.check-price { color: var(--chef-ink); font: 700 12px "Geist Mono", monospace; white-space: nowrap; }
+.check-row.is-checked .check-copy { opacity: 0.45; text-decoration: line-through; }
+.check-row.is-pantry { margin-top: 6px; padding: 0 8px; border: 1px dashed var(--chef-line); border-radius: 10px; background: #fbfaf7; }
+
+.critical-key { display: flex; align-items: flex-start; gap: 7px; margin: 0 14px 12px; padding: 9px 10px; border-radius: 9px; background: #fff6df; color: #6f4a0f; font-size: 10px; font-weight: 700; line-height: 1.5; }
+.critical-key i { flex: 0 0 auto; margin-top: 1px; }
+.detail-toggle { width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border: 0; border-top: 1px solid var(--chef-line); background: var(--chef-card); color: var(--chef-ink); font-size: 12px; font-weight: 800; text-align: left; cursor: pointer; }
+.detail-toggle i { color: var(--chef-muted); }
+.detail-panel { padding: 2px 14px 14px; background: #fbfaf7; }
+.replacement-list, .cook-list { margin: 0; padding: 0; list-style: none; }
+.replacement-list li { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--chef-soft); font-size: 11px; line-height: 1.45; }
+.replacement-list li:last-child { border-bottom: 0; }
+.replacement-list strong { color: var(--chef-ink); }
+.replacement-list span { color: var(--chef-muted); }
+.cook-list { counter-reset: cook; }
+.cook-list li { counter-increment: cook; position: relative; padding: 9px 0 9px 30px; border-bottom: 1px solid var(--chef-soft); color: #4f4b45; font-size: 11px; line-height: 1.5; }
+.cook-list li::before { content: counter(cook); position: absolute; left: 0; top: 9px; color: var(--accent); font: 700 10px "Geist Mono", monospace; }
+.formula-link { display: inline-flex; min-height: 40px; align-items: center; margin-top: 10px; color: var(--accent); font: 700 10px "Geist Mono", monospace; text-decoration: none; }
+
+.shared-card { margin-top: 12px; overflow: clip; background: var(--chef-card); border: 1px solid var(--chef-line); border-radius: 17px; }
+.shared-summary { width: 100%; min-height: 68px; display: grid; grid-template-columns: 42px minmax(0, 1fr) 24px; align-items: center; gap: 11px; padding: 10px 14px; border: 0; background: var(--chef-card); color: var(--chef-ink); text-align: left; cursor: pointer; }
+.shared-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: #e6f2eb; color: var(--chef-green); font-size: 22px; }
+.shared-summary small { display: block; margin-bottom: 3px; color: var(--chef-green); font: 700 9px "Geist Mono", monospace; letter-spacing: 0.08em; }
+.shared-summary strong { font-size: 14px; }
+.shared-caret { color: var(--chef-muted); transition: transform 180ms ease; }
+.shared-card.is-open .shared-caret { transform: rotate(180deg); }
+.shared-details { padding: 0 14px 14px; border-top: 1px solid var(--chef-line); }
+.supp-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--chef-soft); }
+.supp-row strong { display: block; font-size: 12px; }
+.supp-row small { display: block; margin-top: 3px; color: var(--chef-muted); font: 600 10px "Geist Mono", monospace; }
+.supp-label { display: inline-block; margin-bottom: 4px; color: #72531c; font: 800 8px "Geist Mono", monospace; letter-spacing: 0.07em; }
+.supp-label.is-required { color: #8b332b; }
+.supp-label.is-easy { color: var(--chef-green); }
+.omega-heading { margin: 12px 0 0; color: var(--chef-ink); font-size: 12px; font-weight: 800; }
+.omega-row { padding-block: 10px; }
+.supp-row a { align-self: center; min-height: 40px; display: inline-flex; align-items: center; padding: 7px 10px; border: 1px solid var(--chef-line); border-radius: 9px; color: var(--chef-ink); font-size: 11px; font-weight: 800; text-decoration: none; }
+.supp-costs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 12px; }
+.supp-costs div { padding: 10px; border-radius: 10px; background: var(--chef-paper); }
+.supp-costs span { display: block; color: var(--chef-muted); font: 700 8px "Geist Mono", monospace; letter-spacing: 0.05em; text-transform: uppercase; }
+.supp-costs strong { display: block; margin-top: 3px; font: 700 14px "Geist Mono", monospace; }
+.supp-costs small { display: block; margin-top: 4px; color: var(--chef-muted); font: 600 8px/1.35 "Geist Mono", monospace; }
+.price-stamp { margin: 14px 0 0; color: #89857d; font: 600 9px "Geist Mono", monospace; text-align: center; }
+.chef-body .site-footer { color: var(--chef-muted); background: var(--chef-paper); border-color: var(--chef-line); }
+
+@media (max-width: 767px) {
+  .chef-site-nav { height: 50px; }
+  .chef-site-nav .nav-inner { min-height: 50px; padding: 0 14px; }
+  .chef-site-nav .nav-logo { font-size: 13px; }
+  .chef-shell { padding-top: 14px; }
+  .chef-body .mob-tab-bar { background: rgba(255,255,255,.97) !important; border-top-color: var(--chef-line) !important; }
+  .chef-body .mob-tab { color: #7c7871 !important; }
+  .chef-body .mob-tab--active { color: var(--chef-ink) !important; }
+  .chef-body .mob-more-card { background: var(--chef-card) !important; border-top-color: var(--chef-line) !important; }
+  .chef-body .mob-more-title, .chef-body .mob-more-link, .chef-body .mob-more-close { color: var(--chef-ink) !important; }
+}
+
+@media (max-width: 370px) {
+  .chef-shell { padding-inline: 10px; }
+  .recipe-banner { min-height: 68px; padding: 12px; }
+  .recipe-banner h2 { font-size: 19px; }
+  .recipe-metric { padding-inline: 10px; }
+  .recipe-metric strong { font-size: 16px; }
+  .recipe-metric:first-child strong { font-size: 19px; }
+  .quick-list { padding-inline: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chef-body *, .chef-body *::before, .chef-body *::after { scroll-behavior: auto !important; transition: none !important; }
+}
