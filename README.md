@@ -1,6 +1,6 @@
 # Family Hub
 
-A static, multi-page family website built for daily use: chore tracking, photo memories, and NCLEX-PN study prep — all behind a shared 4-digit family passcode. Deployed to GitHub Pages at a custom domain. No build step.
+A static, multi-page family website built for daily use: shared family tools plus protected spaces for Addy, Bray K, Charles, and Donna — all using one shared 4-digit family passcode. Deployed to GitHub Pages at a custom domain. No build step.
 
 ## Design philosophy
 
@@ -22,23 +22,33 @@ The visual language is Tron-esque cyberpunk — a dark indigo void with neon pin
 ## Structure
 
 ```
-index.html              Landing page — hero, animated circuit traces, card grid
+index.html              Landing page — hero, four family spaces, shared tool grid
+addy.html               Addy's protected space — ready for future features
+bray.html               Bray K's protected space — links to Soda Shack
+charles.html            Charles's protected space — ready for future features
+donna.html              Donna's protected space — links to Study Zone
 chores.html             Chore Squad — chore tracker with live cross-device sync
 memories.html           Family Memories — photo timeline and file uploads
-study.html              Mom's Study Zone — full NCLEX-PN study tool
+study.html              Donna's NCLEX-PN Study Zone feature
+soda-shack.html         Bray K's business planning and sales feature
 dog-chef.html           mAxI's Kitchen — chicken-free recipes, portions, costs, and shopping
 
-css/styles.css          Global design system: tokens, nav, buttons, gates, footer, hero, cards
+css/styles.css          Global design system, centralized nav, gates, homepage cards
+css/person-space.css     Shared layout for the four person spaces
 css/chores.css          Chore tracker page styles
 css/memories.css        Memories page styles
 css/study.css           Study Zone styles (optimized for sustained reading)
+css/soda-shack.css      Soda Shack feature styles
 css/dog-chef.css        mAxI's Kitchen mobile grocery-card styles
 
 js/firebase-config.js   Firebase project config + Cloudinary preset (public values, not secrets)
 js/script.js            Shared: active nav link highlight
+js/nav.js               Shared route model, desktop FAM menu, mobile FAM/More sheets
+js/person-space.js      Shared Firebase gate for Addy, Bray K, Charles, and Donna
 js/chores.js            Chore tracker: gate, live Firestore sync, rendering
 js/memories.js          Memories: gate, Cloudinary unsigned uploads, Firestore timeline
 js/study.js             Study Zone: gate, quiz engine, stats, notes, YouTube video picker
+js/soda-shack.js        Soda Shack planning, menu, and sales behavior
 js/dog-chef-boot.js     Loading/auth recovery message for direct-file or network failures
 js/dog-chef.js          Seven-day recipe cards, cost math, notes, cooking steps, and saved checklists
 ```
@@ -109,12 +119,15 @@ Authentication → Users → click the family user → reset the password to `fa
 
 Entering the 4 digits calls Firebase `signInWithEmailAndPassword` behind the scenes. Firebase validates the password server-side and rate-limits guessing, making this a real authentication check — not a UI overlay that source-inspection could bypass. The Firestore rules in step 4 are the actual data lock: only the specific family UID can read or write anything. Appropriate for keeping family data private from strangers; not intended for high-value sensitive data.
 
-## Adding another page
+## Adding another personal feature
 
-1. Create a new `*.html` file with the same `<head>` (font links + `css/styles.css`) and the same `<header class="site-nav">` block.
-2. Add a nav link in every HTML file's `.nav-links`.
-3. Promote or add the corresponding card in `index.html`'s `.cards-grid`.
-4. If it needs Firestore, reuse the same project — write to a different path (e.g. `"mealPlan"` instead of `"chores"`). The existing rules cover all paths automatically.
+1. Create the feature's HTML, CSS, and JavaScript with a feature-specific name.
+2. Link the feature from its owner's page; individual features do not belong in the shared homepage grid or shared navigation.
+3. Add the feature route to the ownership map in `js/nav.js` so FAM and the correct person remain active while it is open.
+4. Reuse the existing family Firebase session. New person landing pages can use `js/person-space.js`; feature pages with their own data behavior can follow the existing feature pattern.
+5. If it needs Firestore, reuse the same project and write to a distinct path. The existing rules cover all authenticated family paths.
+
+Shared navigation is generated from `js/nav.js`. Do not copy navigation links into individual HTML files.
 
 ## Deploying to GitHub Pages
 

@@ -1,0 +1,164 @@
+.person-space-body {
+  --space-accent: var(--neon-pink);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--space-accent) 10%, transparent), transparent 40%),
+    var(--bg-void);
+}
+
+.person-space-shell {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 80px 0 110px;
+}
+
+.person-space-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 48px;
+  border: 1px solid color-mix(in srgb, var(--space-accent) 28%, var(--border-subtle));
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--space-accent) 13%, transparent), transparent 48%),
+    var(--bg-surface);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.28);
+}
+
+.person-space-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.16;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--space-accent) 28%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--space-accent) 28%, transparent) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, black, transparent 82%);
+}
+
+.person-space-icon,
+.person-space-kicker,
+.person-space-title,
+.person-space-intro { position: relative; z-index: 1; }
+
+.person-space-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin-bottom: auto;
+  border: 1px solid color-mix(in srgb, var(--space-accent) 42%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--space-accent) 12%, transparent);
+  color: var(--space-accent);
+  font-size: 28px;
+}
+
+.person-space-kicker,
+.person-features-label {
+  margin: 0 0 12px;
+  color: var(--space-accent);
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.person-space-title {
+  margin: 0;
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(44px, 8vw, 92px);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+}
+
+.person-space-intro {
+  max-width: 560px;
+  margin: 22px 0 0;
+  color: var(--text-secondary);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.person-features { margin-top: 64px; }
+.person-features-label { margin-bottom: 16px; color: var(--text-faint); }
+.person-feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+
+.person-feature-card,
+.person-space-empty {
+  min-height: 210px;
+  padding: 30px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  background: var(--bg-surface);
+}
+
+.person-feature-card {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.person-feature-card:hover,
+.person-feature-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--space-accent);
+  box-shadow: 0 18px 46px color-mix(in srgb, var(--space-accent) 12%, transparent);
+  outline: none;
+}
+
+.person-feature-card > i,
+.person-space-empty > i {
+  color: var(--space-accent);
+  font-size: 34px;
+}
+
+.person-feature-card h2,
+.person-space-empty h2 {
+  margin: auto 0 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+}
+
+.person-feature-card p,
+.person-space-empty p {
+  max-width: 480px;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.person-feature-arrow {
+  position: absolute;
+  opacity: 0;
+}
+
+.person-space-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  border-style: dashed;
+}
+
+@media (max-width: 720px) {
+  .person-space-shell { width: min(100% - 32px, 1120px); padding: 32px 0 72px; }
+  .person-space-hero { min-height: 300px; padding: 28px; border-radius: 20px; }
+  .person-space-icon { width: 50px; height: 50px; font-size: 24px; }
+  .person-space-intro { font-size: 15px; }
+  .person-features { margin-top: 42px; }
+  .person-feature-grid { grid-template-columns: 1fr; }
+  .person-feature-card, .person-space-empty { min-height: 180px; padding: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .person-feature-card { transition: none; }
+}

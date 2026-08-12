@@ -28,6 +28,11 @@
   backdrop-filter: blur(14px);
 }
 .chef-site-nav .nav-logo, .chef-site-nav .nav-link { color: var(--chef-ink); }
+.chef-site-nav .nav-family-panel { background: rgba(255,255,255,.98); border-color: var(--chef-line); }
+.chef-site-nav .nav-family-link { color: var(--chef-muted); }
+.chef-site-nav .nav-family-link:hover,
+.chef-site-nav .nav-family-link:focus-visible,
+.chef-site-nav .nav-family-link--active { color: var(--chef-ink); background: rgba(24,22,18,.06); }
 
 .loading-state {
   min-height: 70vh;

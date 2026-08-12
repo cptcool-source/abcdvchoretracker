@@ -128,6 +128,66 @@ body {
 .nav-link:hover  { color: var(--text-primary); background: rgba(255, 255, 255, 0.06); }
 .nav-link.active { color: var(--text-primary); background: rgba(255, 255, 255, 0.08); }
 
+.nav-family { position: relative; }
+.nav-family-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.nav-family-button i {
+  font-size: 12px;
+  transition: transform 0.18s ease;
+}
+.nav-family-button[aria-expanded="true"] i { transform: rotate(180deg); }
+.nav-family-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 210px;
+  padding: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  background: rgba(20, 19, 64, 0.98);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.nav-family-panel[hidden] { display: none; }
+.nav-family-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  color: var(--text-secondary);
+  font-family: 'Satoshi', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.nav-family-link i {
+  color: var(--text-faint);
+  font-size: 19px;
+}
+.nav-family-link:hover,
+.nav-family-link:focus-visible,
+.nav-family-link--active {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.07);
+}
+.nav-family-link--active i { color: var(--link-accent, var(--neon-pink)); }
+.nav-link:focus-visible,
+.mob-tab:focus-visible,
+.mob-more-close:focus-visible,
+.mob-more-link:focus-visible {
+  outline: 2px solid var(--neon-teal);
+  outline-offset: 2px;
+}
+
 /* ── Buttons ────────────────────────────────────────────────────────────────── */
 .btn {
   font-family: 'Satoshi', sans-serif;
@@ -459,6 +519,64 @@ body {
 }
 
 /* ── Neon charge beam (portal between hero and cards) ───────────────────────── */
+.family-section {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 64px 80px 30px;
+}
+
+.family-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.family-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 96px;
+  padding: 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.family-card > i:first-child {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--member-accent) 12%, transparent);
+  color: var(--member-accent);
+  font-size: 22px;
+}
+
+.family-card-copy { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.family-card-copy strong { font-family: 'Syne', sans-serif; font-size: 16px; }
+.family-card-copy small { overflow: hidden; color: var(--text-faint); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.family-card-arrow { margin-left: auto; color: var(--text-faint); font-size: 16px; transition: transform 0.2s ease, color 0.2s ease; }
+
+.family-card:hover,
+.family-card:focus-visible {
+  outline: none;
+  transform: translateY(-3px);
+  border-color: var(--member-accent);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--member-accent) 10%, transparent);
+}
+
+.family-card:hover .family-card-arrow,
+.family-card:focus-visible .family-card-arrow {
+  color: var(--member-accent);
+  transform: translateX(3px);
+}
+
 .portal-transition {
   display: flex;
   align-items: center;
@@ -713,6 +831,7 @@ body {
 }
 
 @media (max-width: 1100px) {
+  .family-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card-lg  { grid-column: span 6; }
   .card-md  { grid-column: span 12; }
   .card-smd { grid-column: span 6; }
@@ -725,6 +844,7 @@ body {
   .nav-link { font-size: 13px; padding: 5px 10px; }
 
   .hero-content { padding: 60px 24px 80px; }
+  .family-section { padding: 42px 20px 12px; }
 
   .portal-transition { padding: 20px 24px; }
 
@@ -733,6 +853,10 @@ body {
   .card-lg, .card-md, .card-smd, .card-sm { grid-column: span 1; min-height: auto; }
 
   .site-footer { padding: 24px 20px; }
+}
+
+@media (max-width: 420px) {
+  .family-grid { grid-template-columns: 1fr; }
 }
 
 /* ── Mobile bottom tab bar ──────────────────────────────────────────────────── */
@@ -861,8 +985,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 1.9rem;
-    height: 1.9rem;
+    width: 2.75rem;
+    height: 2.75rem;
     background: rgba(255, 255, 255, 0.07);
     border: none;
     border-radius: 50%;
@@ -888,6 +1012,7 @@ body {
     align-items: center;
     gap: 14px;
     padding: 14px 16px;
+    min-height: 52px;
     border-radius: 0.875rem;
     color: var(--text-secondary);
     font-family: 'Satoshi', sans-serif;
