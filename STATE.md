@@ -1,7 +1,7 @@
 # Family Hub Restructure — Resume Contract
 
 Last updated: 2026-08-12
-Status: COMPLETE — GITHUB PAGES DEPLOYMENT APPROVED AND IN PROGRESS
+Status: COMPLETE — DEPLOYED TO GITHUB PAGES
 
 This file is the authoritative session-resume document for the approved Family Hub restructure. Update it after every meaningful checkpoint. A new session should read this file and `README.md`, inspect `git status`, and continue from the first incomplete checkpoint. Do not rely on conversation history.
 
@@ -129,6 +129,9 @@ Do not add Playwright, Vitest, Jest, a package manifest, or another test framewo
 
 - The repository was clean when implementation began, aside from sandbox warnings reading the user's global Git ignore.
 - Charles approved commit and deployment on 2026-08-12, and clarified that the existing GitHub Pages lane must remain in place. No Cloudflare project configuration was added.
+- Implementation commit `a697941` was pushed to `origin/main` on 2026-08-12.
+- GitHub Pages workflow run `31640250284` completed successfully for that commit.
+- Production is live at `https://abcdviolet.com/`. The homepage and new Addy, Bray K, Donna, and Soda Shack routes returned HTTP 200 with the new shared navigation and family structure.
 - `js/nav.js` now owns the shared desktop and mobile navigation. All fourteen HTML pages use the shared navigation mount.
 - `addy.html`, `bray.html`, `charles.html`, and `donna.html` use the shared `js/person-space.js` gate and `css/person-space.css` layout.
 - Soda Shack now lives at `soda-shack.html` with matching feature-named CSS and JavaScript. The old generic Bray feature files no longer exist.
